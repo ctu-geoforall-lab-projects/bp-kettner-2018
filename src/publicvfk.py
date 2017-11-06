@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import sys
+import sqlite3
 
 from osgeo import ogr
 
@@ -60,7 +61,7 @@ def build_par(id_par, list_hp):
     # Hledani koncoveho bodu ringu v seznamu hranic - prvni hledany bod
     search = (ring.GetX(ring.GetPointCount() - 1), ring.GetY(ring.GetPointCount() - 1))  # koncovy bod
     #poc = 0
-    while len(list_hp) > 0:
+    while len(list_hp) > 0: #sestavuju dokud mam v seznamu nejake hranice
         for poradi in range(len(list_hp)):
             if search in list_hp[poradi]:
                 # print "Poradi nalezene hranice: ",poradi,"Pozice bodu: ", list_hp[poradi].index(search)
@@ -69,7 +70,7 @@ def build_par(id_par, list_hp):
                     add_boundary(poradi, 'front', list_hp, ring)
                     search = (ring.GetX(ring.GetPointCount() - 1), ring.GetY(ring.GetPointCount() - 1))
                     break
-                if (list_hp[poradi].index(search)) > 0:  # hranice ma opcanou orientaci
+                if (list_hp[poradi].index(search)) > 0:  # hranice ma opacnou orientaci
                     add_boundary(poradi, 'back', list_hp, ring)
                     search = (ring.GetX(ring.GetPointCount() - 1), ring.GetY(ring.GetPointCount() - 1))
                     break
@@ -80,7 +81,7 @@ def build_par(id_par, list_hp):
     poly_geom = ogr.Geometry(ogr.wkbPolygon)
     poly_geom.AddGeometry(ring)
 
-    return id_par, poly_geom.ExportToWkt()
+    print id_par, poly_geom.ExportToWkt()
     
 ds = ogr.Open('600016.vfk')
 if ds is None:
@@ -88,9 +89,26 @@ if ds is None:
 
 #print ("Pocet vrstev: {}".format(ds.GetLayerCount()))
 
+#Zjistim seznam parcel  - cislo kazde parcely jen jednou - unikatni seznam
+#zdroj: http://zetcode.com/db/sqlitepythontutorial/
+db = sqlite3.connect('600016.db')
+if db is None:
+    sys.exit('Databaze nepripojena')
+parcely = []
+with db:
+    cur = db.cursor()
+    cur.execute('SELECT par_id_1 as id FROM hp UNION SELECT par_id_2 as id from hp')
+    while True:
+        row = cur.fetchone()
+        if row == None:
+            break
+        parcely.append(row[0])
+if db:
+        db.close()
+print "Pocet parcel: ", len(parcely)
 #Vypisovani nazvu vrstev
-for idx in range(ds.GetLayerCount()):
-    lyr = ds.GetLayerByIndex(idx)
+#for idx in range(ds.GetLayerCount()):
+#lyr = ds.GetLayerByIndex(idx)
     #print (lyr.GetName())
 
 ### HP
@@ -99,46 +117,44 @@ if lyr_hp is None:
     sys.exit('Nelze nacist vrstvu HP')
 
 #co je v HP
-##print ("Pocet prvku v HP: {}".format(lyr_hp.GetFeatureCount()))
+#print ("Pocet prvku v HP: {}".format(lyr_hp.GetFeatureCount()))
 
-# prochazet sekvencne prvky ve vrstve HP (hranice parcel)
-i = 0
-for id_hp in range(1, 100):#lyr_hp.GetFeatureCount()+1):
-    i = i+1
-    ##print ("Prvek cislo: {}".format(i))
-    feat = lyr_hp.GetFeature(id_hp)
-    # zjistit id parcel vlevo a vpravo
-    id1 = feat.GetField('PAR_ID_1')
-    id2 = feat.GetField('PAR_ID_2')
-    print id1 #,id2
-    # seznam linii - hranic parcel
-    list_hp = []
-    for feature in filter_hp(lyr_hp, id1):
+#Sestavovani parcel postupne podle poradi v unikatnim seznamu
+for i in range(20):#(len(parcely)):
+    list_hp = [] #vytvoreni prazdneho seznamu pro ulozeni hranic sestavovane parcely
+    id = parcely[i]
+    for feature in filter_hp(lyr_hp, id):
         geom = feature.GetGeometryRef()
-        #print ("Pocet bodu hranice: {}".format(geom.GetPointCount()))
+        # print ("Pocet bodu hranice: {}".format(geom.GetPointCount()))
         # seznam hranic parcel
         list_hp.append(geom.GetPoints())
-        # vypis vsech bodu jedne hranice
-        # print ("Body hranice: {}".format(geom.GetPoints()))
-        # vypis koncovych a pocatecnich bodu hranice
-    print "Pocet bodu linie", len(list_hp)
+    build_par(id,list_hp)
 
+#Ukladani geometrie hranic
+#    print ("Pracela cislo {0} ma {1} bodu".format(id,len(list_hp)))
+# prochazet sekvencne prvky ve vrstve HP (hranice parcel)
+#for id_hp in range(10000, 10009):#lyr_hp.GetFeatureCount()+1):
+    ##print ("Prvek cislo: {}".format(i))
+    #feat = lyr_hp.GetFeature(id_hp)
+    # zjistit id parcel vlevo a vpravo
+    #id1 = feat.GetField('PAR_ID_1')
+    #id2 = feat.GetField('PAR_ID_2')
+    #print id1 ,id2
+    # seznam linii - hranic parcel
+    #list_hp = []
+    #for i in range (len(parcely)):
+        #id = parcely[i]
+        #for feature in filter_hp(lyr_hp, id):
+            #geom = feature.GetGeometryRef()
+            #print ("Pocet bodu hranice: {}".format(geom.GetPointCount()))
+            # seznam hranic parcel
+            #list_hp.append(geom.GetPoints())
+    #print "Hranice parcely: ",list_hp
     # zpracovat prvni parcelu
-    print ('1', build_par(id1, list_hp))
+    #print ('1', build_par(id1, list_hp))
     # zpracovat druhou parcelu
     #print ('2', build_par(id2, list_hp_2))
-    feat = None
+    #feat = None
     #break
-
-#seznam linii - hranic parcel
-list_hp = []
-for feature in filter_hp(lyr_hp, id1):
-    geom = feature.GetGeometryRef()
-    ##print ("Pocet bodu hranice: {}".format(geom.GetPointCount()))
-    #seznam hranic parcel
-    list_hp.append(geom.GetPoints())
-    # vypis vsech bodu jedne hranice
-    #print ("Body hranice: {}".format(geom.GetPoints()))
-    #vypis koncovych a pocatecnich bodu hranice
-print ("Parcela: {} ma: {} hranic.".format(id1,len(list_hp)))
+#print ("Parcela: {} ma: {} hranic.".format(id1,len(list_hp)))
 del ds
