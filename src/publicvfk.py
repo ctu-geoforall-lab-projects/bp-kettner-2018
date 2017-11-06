@@ -28,7 +28,7 @@ def add_boundary(index,direction,list_hp,ring):
                 break
             ring.AddPoint(bod[0], bod[1])
     if direction == 'back':
-        for i in range(len(hranice)-1,0,-1):
+        for i in range(len(hranice)-2,-1,-1):
             bod = hranice[i]
             if bod == prvni:
                 break
@@ -46,7 +46,7 @@ def build_par(id_par, list_hp):
     # 4. return id_par, geom_poly
 
     ##SESTAVENI POLYGONU GEOMETRICKOU CESTOU
-    # create ring - geometrie vnejsi hranice
+    # create ring - geometrie vnejsi hranic
 
     ring = ogr.Geometry(ogr.wkbLinearRing)
 
@@ -60,6 +60,7 @@ def build_par(id_par, list_hp):
     # Pridani dalsich linii hranice
     # Hledani koncoveho bodu ringu v seznamu hranic - prvni hledany bod
     search = (ring.GetX(ring.GetPointCount() - 1), ring.GetY(ring.GetPointCount() - 1))  # koncovy bod
+
     #poc = 0
     while len(list_hp) > 0: #sestavuju dokud mam v seznamu nejake hranice
         for poradi in range(len(list_hp)):
