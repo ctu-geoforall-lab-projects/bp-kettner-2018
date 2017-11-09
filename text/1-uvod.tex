@@ -1,0 +1,69 @@
+\chapter{Úvod}
+\label{1-uvod}
+
+Hrozba jaderného výbuchu či jaderné havárie se v
+posledních sto letech stala více než reálnou. Proto ve světě vznikla
+potřeba být na takovéto situace co nejlépe připraven. V první řadě
+existuje samozřejmě snaha jim předcházet, avšak pokud již některý 
+ze~zmíněných stavů nastane, je důležité na něj reagovat rychle a
+efektivně.  Důsledkem jsou snahy o zjednodušení získávání informací,
+automatizaci jejich zpracování a standardizaci formátu, v němž jsou
+předávány navazujícím složkám soustavy. Jedním ze způsobů, jak do
+%%% ML: slovo obrovsky by bylo dobre nahradit vhodnejsim ekvivalentem
+tohoto velkého a provázaného systému přispět, je i softwarový
+nástroj, jehož vytvoření v rámci této bakalářské práce zadala Armáda
+České republiky, přesněji 314. centrum výstrahy proti zbraním
+hromadného ničení v Hostvici.
+
+314. centrum výstrahy \zk{ZHN} je podřízeno 31. pluku radiační,
+chemické a bio\-logické ochrany v Liberci. V Armádě ČR plní funkci
+související se sledováním a~vyhodnocováním informací v oblasti
+radiační, chemické a biologické ochrany.
+
+V období míru je úkolem 314. centra mimo jiné spravovat armádní
+radiační monitorovací síť Armády České republiky, provádět letecký
+radiační průzkum, shromažďovat informace o zbraních hromadného ničení,
+jaderných energetických zařízeních a navrhovat ochranná opatření proti
+\zk{ZHN} či ochranu proti následkům radiačních havárií. "Při vyhlášení
+stavu ohrožení státu/válečného stavu přebírá centrum od Ministerstva
+vnitra úkoly ústředního koordinačního orgánu v oblasti moni\-torování a
+výstrahy". \cite{ZHN}
+
+V současnosti AČR zpracovává hodnoty naměřené v rámci radiačního
+průzkumu ručně, za výpočty a zakreslení výsledků do mapy je zodpovědná
+analytická skupina. Tento proces je poměrně náročný na znalosti a
+zkušenosti operátora, ani čas strávený vyhodnocením není
+zanedbatelný. Výhodný by proto byl softwarový nástroj, který by část
+procesu zautomatizoval. Konkrétně se jedná o vytvoření
+předdefinovaných izolinií ze vstupního interpolovaného gridu, jejich
+převod na zjednodušené polygony a vygenerování textového reportu ve
+%%% ML: souradnicovy nebo hlasny?
+%%% TK: spravne ma byt hlasny
+formátu dle specifikace \zk{NATO}/\zk{AČR} v hlásném systému
+\zk{MGRS}. Na operátorovi pak zůstane následné vložení zprávy do
+softwaru určeného k varování a uvědomování ostatních jednotek.
+
+S ohledem na skutečnost, že \zk{AČR} zpracovává data v open source
+geografickém informačním systému QGIS, bylo rozhodnuto, že nástroj
+bude vyvíjen jako nový zásuvný modul pro toto prostředí. Modul bude
+psán v programovacím jazyku Python, pro grafické rozhraní bude použit
+framework Qt, bude využívat QGIS \zk{API}. Pro své specializované
+funkce je uvažováno i využití GRASS GIS \zk{API} a knihovna \zk{GDAL}.
+
+V teoretické části práce bude čtenář seznámen se způsoby monitorování
+radiační situace v České republice, dotkne se tématu standardizovaných
+%%% ML: hlásný ?
+zpráv předávaných v rámci armády a představí hlásný systém \zk{MGRS}.
+
+\textbf{Rešerše:} Z českých prací se zadanému tématu z hlediska teorie
+nejvíce blíží diplomová práce Bc. Romany Loškové \textit{Hodnocení
+přístrojů používaných v AČR v~případě mimořádné radiační
+události}\footnote{\url{http://theses.cz/id/o3vhp8/Diplomov_prce_Lokov.pdf}}. Zabývá
+se monitorováním radiační situace a~přístroji používanými v rámci
+\zk{AČR}. Naopak z hlediska praktické části je nejpodobnější
+bakalářská práce Ondřeje Peška \textit{Posun letecky měřených bodů po
+  trajektorii v prostředí
+  %%% ML: nahradil jsem neoficialnim odkazem, ktery je uchopitelnejsi 
+QGIS}\footnote{\url{https://github.com/ctu-osgeorel-proj/bp-pesek-2016/raw/master/text/ondrej-pesek-bp-2016.pdf}},
+která byla vedena v roce 2016 na katedře geomatiky FSv ČVUT. Jejím
+cílem je také vytvoření zásuvného modulu pro QGIS.
