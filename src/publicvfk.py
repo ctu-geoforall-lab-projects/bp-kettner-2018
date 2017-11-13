@@ -4,10 +4,13 @@ import sys
 import sqlite3
 
 from osgeo import ogr
+
 class VFKParBuilder:
     def __init__(self, filename):
-        """Konstruktor tridy VFKParBuilder"""
-        #DataSource
+        """Constructor VFKParBuilder
+
+        :param str filename: path to VFK file
+        """
         self.filename = filename
 
     def get_par(self):
