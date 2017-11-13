@@ -25,16 +25,16 @@ class VFKParBuilder:
         if db is None:
             raise VFKParBuilderError('Databaze nepripojena')
         parcely = []
-        with db:
-            cur = db.cursor()
-            cur.execute('SELECT par_id_1 as id FROM hp UNION SELECT par_id_2 as id from hp')
-            while True:
-                row = cur.fetchone()
-                if row == None:
-                    break
-                parcely.append(row[0])
-        if db:
-            db.close()
+        
+        cur = db.cursor()
+        cur.execute('SELECT par_id_1 as id FROM hp UNION SELECT par_id_2 as id from hp')
+        while True:
+            row = cur.fetchone()
+            if row == None:
+                break
+            parcely.append(row[0])
+        db.close()
+        
         return parcely
 
     def filter_hp(self, id_par): #, lyr_hp):
@@ -96,7 +96,7 @@ class VFKParBuilder:
         poly_geom = ogr.Geometry(ogr.wkbPolygon)
         poly_geom.AddGeometry(ring)
 
-        print id_par, poly_geom.ExportToWkt()
+        return poly_geom
 
     def add_boundary(self,index,direction, list_hp, ring):
         """Prida hranici parcely do ringu"""
@@ -117,16 +117,29 @@ class VFKParBuilder:
         list_hp.pop(index)
         return ring
 
-    def build_all(self,limit = 10):
+    def build_all(self, limit = 10):
         """Sestavovani vsech parcel postupne podle poradi v unikatnim seznamu"""
-        for i in range(limit):#(len(parcely)):
-            list_hp = [] #vytvoreni prazdneho seznamu pro ulozeni hranic sestavovane parcely
-            parcely = self.get_par() #parcely[i]
-            id = parcely [i]
-            for feature in self.filter_hp(id):
+        counter = 0
+
+        # get list of unique par ids
+        parcely = self.get_par()
+                    
+        for par_id in parcely:
+            list_hp = [] # vytvoreni prazdneho seznamu pro ulozeni hranic sestavovane parcely
+
+            # collect unsorted list of vertices forming par boundary
+            for feature in self.filter_hp(par_id):
                 geom = feature.GetGeometryRef()
                 list_hp.append(geom.GetPoints()) # seznam hranic parcel - jiz geometrie
-            self.build_par(id,list_hp)
+
+            # create par geometry
+            poly_geom = self.build_par(par_id, list_hp)
+
+            # print result to stdout and check limit (will be removed)
+            print (par_id, poly_geom.ExportToWkt())
+            counter += 1
+            if counter > limit:
+                break
 
     def writeDB(self):
         """Ulozeni geometrii do databaze"""
