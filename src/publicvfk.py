@@ -1,9 +1,13 @@
 #!/usr/bin/env python
 
+import os
 import sys
 import sqlite3
 
 from osgeo import ogr
+
+class VFKParBuilderError(Exception):
+    pass
 
 class VFKParBuilder:
     def __init__(self, filename):
@@ -17,11 +21,9 @@ class VFKParBuilder:
         """Metoda vracejici seznam parcel pomoci SQL dotazu na databazi"""
         # Zjistim seznam parcel  - cislo kazde parcely jen jednou - unikatni seznam
         # zdroj: http://zetcode.com/db/sqlitepythontutorial/
-        file = self.filename
-        db = sqlite3.connect(file[0:-3]+'db') #takto? nechci natvrdo zapsat nazev, odebere priponu vfk a prida db
-        #db = sqlite3.connect('600016.db')
+        db = sqlite3.connect(os.path.splitext(self.filename)[0] + '.db')
         if db is None:
-            sys.exit('Databaze nepripojena')
+            raise VFKParBuilderError('Databaze nepripojena')
         parcely = []
         with db:
             cur = db.cursor()
