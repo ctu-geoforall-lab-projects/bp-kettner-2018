@@ -152,7 +152,7 @@ class VFKParBuilder:
         list_hp.pop(position)
         return ring
 
-    def build_all(self, limit=10):
+    def build_all(self, limit=None):
         """Build the boundaries of specified amount of parcels according to the unique list of parcel ids and write them in to the database
         
         :param int limit: define amount of built parcels 
@@ -191,7 +191,7 @@ class VFKParBuilder:
             # print result to stdout and check limit (will be removed)
             #print (par_id, poly_geom.ExportToWkt())
             counter += 1
-            if counter > limit:
+            if limit and counter > limit:
                 break
         #End transaction
         self.layer_par.CommitTransaction()
@@ -204,5 +204,5 @@ class VFKParBuilder:
 object = VFKParBuilder('600016.vfk')
 #object.get_par()
 #object.filter_hp(706860403)
-object.build_all(3)
+object.build_all()
 #print(object.build_all.__doc__) #vypis dokumentacniho retezce
