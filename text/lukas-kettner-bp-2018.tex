@@ -122,20 +122,9 @@
 \misto{Praha}
 
 %% Abstrakt
-\abstrakt{Tato bakalářská práce si klade za cíl zautomatizovat zpracování dat naměřených 
-při~terénním radiačním průzkumu. Z mapy dávkových příkonů, resp. plošné 
-aktivity, softwarový nástroj vygeneruje zjednodušené polygony ohraničující 
-oblasti dle zvolených úrovní a textový report kompatibilní s~formátem dle NATO 
-APP-11. Požadavek na~tento nástroj vzešel ze~strany Armády České republiky, 
-jelikož v~době zadání práce celý postup prováděl operátor ručně. Nástroj je 
-s~využitím externí knihovny implementován do~prostředí open source systému 
-QGIS.} {The aim of this bachelor thesis is to automate processing of data measured 
-during the radiation reconnaisance. From map of dose rate or surface 
-activity software tool generates simplified polygons bounding areas of preset 
-levels and a text file in NATO APP-11 compatible format. This plugin was 
-created for Army of the Czech Republic because in time of thesis 
-assignment operator had to process data manually. Plugin uses an external 
-library and is implemented into open source project QGIS.}
+\abstrakt{Tato bakalářská práce je zaměřena na rozšíření již existujícího zásuvného modulu pro práci s katastrálními daty o možnost využití i nekomerčních, volně dostupných (nezpoplatněných) dat ve formátu VFK. Bude se jednat o sestavení bloků PAR a BUD (parcel a budov), které lze z dostupných geometrických a popisných informací sestavit.
+Zásuvný modul bude vyvíjen pro prostředí open source nástroje QGIS v programovacím jazyce Python.}
+{This bachelor thesis is focused on development of already existing plugin for working with cadastral data in VFK format. The project will enable the use of non-commercial, for free available data in VFK format. That means creat new blocks PAR and BUD (parcels and buildings) from geometric and discription information which are included. The plugin will be developed in open source project QGIS in programming language Python.}
 
 %% Klíčová slova
 \klicovaslova
@@ -195,7 +184,7 @@ library and is implemented into open source project QGIS.}
 	\vspace{1em}
 		%\noindent
 	\par\hspace{2ex}
-	{V~první řadě děkuji vedoucímu bakalářské práce, Ing. Martinu Landovi, PhD., za~připomínky a pomoc při~zpracování této práce. Dále děkuji Mgr. Janu Helebrantovi (SÚRO) a nadporučíkovi Jiřímu Komárkovi (AČR) za~odborné rady. V~neposlední řadě děkuji svým blízkým za~projevenou podporu.}
+	{Na tomto místě bych chtěl poděkovat především vedoucímu práce, Ing. Martinu Landovi, PhD., nejen za cenné rady a připomínky k zlepšení práce po všech stránkách, ale také za velké množství věnovaného času při objasňování problematiky. Dále chci poděkovat také svým blízkým, kteří mi v případě potřeby byli vždy nápomocni.}
 }
 
 % Vysázení obsahu
@@ -209,13 +198,13 @@ library and is implemented into open source project QGIS.}
 
 % jednotlivé kapitoly
 \include{1-uvod}
-%\include{2-teorie}
+\include{2-teorie}
 %\include{3-technologie}
 %\include{4-plugin}
 %\include{5-zaver}
 
 % Vysázení seznamu zkratek
-%\include{zkratky}
+\include{zkratky}
 
 % Literatura
 \nocite{*}
