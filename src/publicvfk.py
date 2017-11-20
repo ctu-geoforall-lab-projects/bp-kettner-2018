@@ -18,15 +18,19 @@ class VFKParBuilder:
         """
         self.filename = os.path.splitext(filename)[0]
 
-        self.dsn = ogr.Open(self.filename + '.db', 1)
-        if self.dsn is None:
+        self.dsn_vfk = ogr.Open(self.filename + '.vfk')
+        if self.dsn_vfk is None:
+            raise VFKParBuilderError('Nelze otevrit datasource')
+
+        self.dsn_db = ogr.Open(self.filename + '.db', True)
+        if self.dsn_db is None:
             raise VFKParBuilderError('Database in write mode is not connected')
         # Set coordinate system
         srs = osr.SpatialReference()
         srs.ImportFromEPSG(5514)
         # New layer
         table = 'PAR'  # TASK:set capital letters, is it possible?
-        self.layer_par = self.dsn.CreateLayer(table, srs, ogr.wkbPolygon, ['OVERWRITE=YES'])
+        self.layer_par = self.dsn_db.CreateLayer(table, srs, ogr.wkbPolygon, ['OVERWRITE=YES'])
         # Layer definition
         self.layer_par_def = self.layer_par.GetLayerDefn()
         # New field - atribute "id_par"
@@ -68,11 +72,8 @@ class VFKParBuilder:
         """
 
         #DataSource
-        ds = ogr.Open(self.filename + '.vfk')
-        if ds is None:
-            raise VFKParBuilderError('Nelze otevrit datasource')
         # Data in layer HP
-        lyr_hp = ds.GetLayerByName('HP')
+        lyr_hp = self.dsn_vfk.GetLayerByName('HP')
         if lyr_hp is None:
             raise VFKParBuilderError('Nelze nacist vrstvu HP')
         #Filter of vertices on specified parcel
@@ -81,8 +82,6 @@ class VFKParBuilder:
         for feat in lyr_hp:
             hp_list.append(feat)
         lyr_hp.SetAttributeFilter(None)
-        #Delete data source
-        del ds
 
         return hp_list #jen prvky ve vrstve, nikoliv geometrie (ta je oznacena list_hp)
 
@@ -153,7 +152,7 @@ class VFKParBuilder:
         list_hp.pop(position)
         return ring
 
-    def build_all(self, limit = 10):
+    def build_all(self, limit=10):
         """Build the boundaries of specified amount of parcels according to the unique list of parcel ids and write them in to the database
         
         :param int limit: define amount of built parcels 
@@ -196,8 +195,10 @@ class VFKParBuilder:
                 break
         #End transaction
         self.layer_par.CommitTransaction()
-        #Close database - is it necessary?
-        self.dsn = None
+
+        #Close database
+        self.dsn_db = None
+        self.dsn_vfk = None
 
 #Funkcnost tridy
 object = VFKParBuilder('600016.vfk')
