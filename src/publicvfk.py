@@ -136,18 +136,13 @@ class VFKParBuilder:
         """
 
         vertices = list_hp[position]
-        first = (ring.GetX(0), ring.GetY(0))  # the first point in the ring, is not added when the ring is closed(already in)
         if direction == 'front':
             for i in range(1, len(vertices)):
                 point = vertices[i]
-                if point == first:  #secures doubled first point
-                    break
                 ring.AddPoint(point[0], point[1])
         if direction == 'back':
             for i in range(len(vertices) - 2, -1, -1):
                 point = vertices[i]
-                if point == first: #secures doubled first point
-                    break
                 ring.AddPoint(point[0], point[1])
         list_hp.pop(position)
         return ring
