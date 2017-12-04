@@ -1,13 +1,91 @@
 \chapter{Teoretický základ}
 \label{2-teorie}
-
 %co v kapitole uvedu?
+V této kapitole představím Informační systém katastru nemovitostí a doplním o způsob poskytování dat z katastru nemovitostí.
 
 \section{Informační systém katastru nemovitostí}
-
-\subsection{Historie}
-\subsection{Současná podoba}
-
-\section{Výměnný formát katastru}
+Katastr nemovitostí se řadí mezi datově nejrozsáhlejší informační systémy státní správy. Pro výkon státní správy a zajištění uživatelských služeb byl v letech 1997-2001 zřízen Informační systém katastru nemovitostí(\zk{ISKN}), který sjednotil vedení a správu katastru nemovitostí do jediného informačního systému. Aktuální data z katastru nemovitostí jsou dostupná přes službu Dálkový přístup na síti internetu po registraci během několika minut. 
+%zdroj: http://www.cuzk.cz/Katastr-nemovitosti/O-katastru-nemovitosti/Informacni-system-katastru-nemovitosti-ISKN.aspx
+\subsection{Vývoj ISKN}
+\zk{ISKN} vznikl v letech 1997-2001 ve spolupráci s firmou APP Czech s.r.o.(NESS Czech s.r.o.). V roce 1998 došlo k dokončení digitalizace souboru popisných informací a nyní se digitalizuje souboj geodetických informací. Na všech katastrálních pracovištích byl \zk{ISKN} zprovozněn v roce 2001. Během následujících let byl systém průběžně laděn. V letech 2007 až 2010 došlo k centralizaci informačního systému do jediné databáze, čímž odpadlo replikování ze 107 lokálních databází a zrychlila se aktualizace dat v Dálkovém přístupu. Velkou výhodou \zk{ISKN} je možnost zavedení automatických kontrol při zápisu do katastru nemovitostí. Kvůli zvýšení bezpečnosti, na kterou byl při tvorbě systému kladen velký důraz, je celá infrastruktura zdvojena. Vzniklo tak primární a záložní centrum, které v případě výpadku primárního centra udrží \zk{ISKN} v provozu.
+\subsection{Poskytování dat}
+Český úřad zeměměřický a katastrální( \zk{ČUZK}) poskytuje široké spektrum data v papírové i digitální podobě. Pro tuto práci je podstatný výstup dat ve výměnném formátu \zk{ISKN} v textovém tvaru, který obsahuje popisné i grafické informace dle zadané kombinace bloků(\textit{viz Tab. 2.1. Kombinace datových bloků}).
+\begin{table}[h!] %specifikace umisteni objektu-tabulky, ! trvá na umístění h-here
+			\centering
+			\caption{Kombinace datových bloků}
+			\label{tab:komb_dat_skup}
+			\begin{tabular}{|l|l|}
+				\hline
+				\textbf{Blok}           	& \textbf{Popis bloku}  	\\ \hline
+				1. Nemovitosti				& parcely a budovy	\\ \hline
+				2. Jednotky					& bytové jednotky	 \\ \hline
+				3. Bonitní díly parcel      & kódy \zk{BPEJ} k parcelám              \\ \hline
+				4. Vlastnictví             	& listy vlastnictví, oprávněné subjekty a vlastnické vztahy		 \\ \hline
+				5. Jiné právní vztahy 		& ostatní právní vztahy kromě vlastnictví \\ \hline
+				6. Řízení       			& údaje o řízení (vklad, záznam,…) a listiny          \\ \hline
+				7. Prvky katastrální mapy 	& katastrální mapy v digitální podobě	 \\ \hline
+				8. \zk{BPEJ}				& hranice \zk{BPEJ} včetně kódů	 \\ \hline
+				9. Geometrický plán			& geometrické plány	 \\ \hline
+				10. Rezervovaná čísla		& rezervovaná parcelní čísla a čísla \zk{PBPP}	 \\ \hline
+				11. Definiční body 			& definiční body parcel a staveb	 \\ \hline
+				12. Adresní místa 			& adresní místa budov	 \\ \hline
+			\end{tabular}
+		\end{table}
+%tabulka zdroj: http://www.cuzk.cz/Katastr-nemovitosti/Poskytovani-udaju-z-KN/Vymenny-format-KN/Vymenny-format-NVF.aspx
+Poskytování veškerých dat se řídí vyhláškou číslo 358/2013 Sb., o poskytování údajů z katastru nemovitostí.
+\section{Výměnný formát katastru nemovitostí}
+Obsah této kapitoly vychází z informací na stránkách \zk{ČUZK} o Výměnném formátu katastru nemovitostí a z dokumentu \textit{Struktura výměnného formátu informačního systému katastru nemovitostí České republiky} ze dne 7.11.2014.
 \subsection{Historie a vývoj}
-\subsection{Popis formátu}
+Výměnný formát před \zk{ISKN} byl označován jako \textit{starý výměnný formát(SVF)} a obsahoval tři samostatné a oddělené části:
+\begin{itemize}
+	\item \textbf{Soubor popisných informací(SPI)} - informace o parcelách, vlastnících, nabývacích titulech
+	\item \textbf{Soubor geodetických informací (SGI)} - informace o poloze nemovitosti
+	\item \textbf{Digitální katastrální mapu (DKM)} - soubory ve formátu VKM
+\end{itemize}
+%zdroj: http://www.cuzk.cz/Katastr-nemovitosti/Poskytovani-udaju-z-KN/Vymenny-format-KN/Vymenny-format-KN-pred-ISKN.aspx
+Podpora starého výměnného formátu skončila se vznikem \zk{ISKN}, protože v něm jsou data popisná a geodetická uložena ve společném datovém modulu. Proto byl vytvořen a postupně implementován \textit{nový výměnný formát(NVF)}. Jeho data jsou poskytována ve dvou časových režimech:
+\begin{itemize}
+\item \textbf{Prvotní data}\begin{itemize}
+								\item Kompletní data pro konkrétní časové období
+						   \end{itemize}
+
+\item \textbf{Změny} \begin{itemize}
+								\item Data obsahující pouze změny za konkrétní časové období. Lze zadávat datum od-do včetně času.
+							\end{itemize}
+\end{itemize}
+Tento nový datový formát obsahuje dle požadované kombinace bloků popisnou i grafickou informaci včetně dat o řízení. Rozsah poskytovaných dat je možné definovat podle:
+\begin{itemize}
+		\item Územní jednotka (katastrální území, obec, okres, Česká republika)
+		\item oprávněný subjekt
+		\item výběr parcel
+		\item výběr parcel polygonem v mapě
+\end{itemize}
+%http://www.cuzk.cz/Katastr-nemovitosti/Poskytovani-udaju-z-KN/Vymenny-format-KN/Vymenny-format-ISKN-v-textovem-tvaru.aspx
+%http://geo.fsv.cvut.cz/~landa/publications/2005/diploma_thesis/martin.landa-thesis.pdf
+\subsection{Struktura výměnného formátu ISKN}
+V této kapitole představím nejzákladnější strukturu nového výměnného formátu \zk{ISKN}, velice podrobný popis je k dispozici v dokumentaci o struktuře[]. Výměnný formát je určený k vzájemnému předávání dat mezi systémem \zk{ISKN} a jinými systémy zpracování dat. Datový soubor výměnného formátu je textový soubor s kódováním češtiny\footnote{Pouze ve výjimečných případech lze poskytnout v kódování dle WIN1250} dle ČSN ISO 8859-2 (ISO Latin2) skládající se z:
+\begin{itemize}
+		\item hlavičky \verb|&H|
+		\item datových bloků \verb|&B|
+		\item koncového znaku \verb|&K|
+\end{itemize}
+Každý z datových bloků v sobě obsahuje informaci o atributech a jejich formátu následovanou vlastními datovými řádky. Každá věta hlavičky (\verb|&H|), definice bloku(\verb|&B|) i věta dat (\verb|&D|) je zakončena znaky <CR><LF>. %ukázku?
+\subsection{Porovnání úplného a neúplného formátu}
+Pro mojí bakalářskou práci jsou hlavní bezúplatně poskytovaná data z neharmonizovaných služeb \zk{ČUZK}.
+%http://services.cuzk.cz/
+%http://freegis.fsv.cvut.cz/gwiki/V%C3%BDm%C4%9Bnn%C3%BD_form%C3%A1t_ISKN
+
+%Možná spíš do použité technologie
+\section{Drivery} 
+Drivery, česky ovladače, slouží obecně k rozšíření funkcionality. Pro nás jsou důležité ve smysl rozšíření možností knihovny GDAL. V souvislosti s vytvořenou prací představím VFK driver a SQLite driver, které jsou knihovny \zk{GDAL} součástí.
+\subsection{GDAL - VFK driver}
+Tento driver umožňuje čtení souborů výměnného formátu katastru(VFK). Soubor \zk{VFK} je vnímán jako zdroj dat(\verb|OGR datasource|) s žádnou nebo více vrstvami(\verb|OGR layers|). Body jsou ve vrstvách reprezentovány jako \verb|wkbPoints|, linie a hranice jako \verb|wkbLineStrings| a plochy jako \verb|wkbPolygons|. VFK driver si během prvního čtení ukládá data do SQLite databáze, která se vytvoří ve stejném adresáři jako je vfk soubor. Opakované načtení je díky již vytvořené databázi výrazně rychlejší. Výhoda databáze je v snazším a rychlejším vyhledávání dat přes SQL dotazy.
+%zdroj:http://gdal.org/drv_vfk.html
+%http://freegis.fsv.cvut.cz/gwiki/VFK_/_GDAL
+%http://freegis.fsv.cvut.cz/gwiki/V%C3%BDm%C4%9Bnn%C3%BD_form%C3%A1t_ISKN
+\subsection{SQLite driver}
+Ve verzi knihovny \zk{GDAL} 2.1.3 a nižší je nezbytné, aby databáze obsahovala tabulky s upřesněním podoby obsažené geometrie (\verb|geometry columns|) a souřadného systému (\verb|spatial_ref_sys|). Pokud databáze tabulky neobsahuje, SQLite driver nerozezná datový typ vrstvy. Novější verze knihovny si s absencí tabulek dokáže poradit, resp už si tabulky vytvoří sama.
+%zdroj: http://gdal.org/drv_sqlite.html
+
+%VFK/QGIS plugin
+%http://freegis.fsv.cvut.cz/gwiki/VFK_/_QGIS_plugin
