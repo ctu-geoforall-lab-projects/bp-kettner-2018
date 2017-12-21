@@ -35,7 +35,7 @@
 \setlength{\@fpbot}{0pt plus 1fil}
 \makeatletter
 
-\usepackage[dvips]{graphicx}   
+\usepackage[dvips]{graphics} %graphicx   
 \usepackage{color}
 \usepackage{transparent}
 \usepackage{wrapfig}
@@ -202,13 +202,13 @@ Zásuvný modul bude vyvíjen pro prostředí open source nástroje QGIS v progr
 \include{1-uvod}
 \include{2-teorie}
 \include{3-technologie}
-%\include{4-plugin}
-%\include{5-zaver}
+\include{4-plugin}
+\include{5-zaver}
 
 % Literatura
 \nocite{*}
 \def\refname{Literatura}
-\bibliographystyle{mystyle}
+\bibliographystyle{mystyle} %mystyle(alpha, plain, unsrt, abbrv, czechiso)
 \bibliography{literatura}
 
 
