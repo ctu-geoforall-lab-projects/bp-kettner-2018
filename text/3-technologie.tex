@@ -30,10 +30,29 @@ Python účinně a efektivně pracuje s vysokoúrovňovými datovými typy. Synt
   
 Jedná se o volně dostupný geografický informační systém (\zk{GIS}), který slouží pro práci s geodaty \footnote{Data s prostorovou a atributovou složkou, která se vztahují ke konkrétnímu místu na Zemi.}. Program je open source s licencí pod GNU General Public License. QGIS je oficiálním projektem Open Source Geospatial Foundation(\zk{OSGeo}) a  je spustitelný na nejužívanějších operačních systémech jako Windows, Linux, MacOS. Samotný systém je napsaný v jazyce C++ a jeho výhodou je velké množství nejrůznějších rozšíření (zásuvných modulů), které je možné snadno doinstalovat. Zásuvné moduly mohou být napsané nejen v C++, ale také v programovacím jazyce Python. QGIS podporuje velké množství formátů -- rastrových, vektorových i databázových. Aktuálně nejnovější verze je 2.18.15 nazvaná \textit{Las Palmas} a vydaná dne 8.12.2017.
 
-Vývoj systému začal roku 2002 Garym Shermanem, ještě pod názvem \textit {Quantum GIS}(toto označení zůstalo až do verze 2.0). V roce 2007 se projekt stal součástí Open Source Geospatial Foundation (\zk{OSGeo}).
+Vývoj systému začal roku 2002 Garym Shermanem, ještě pod názvem \textit {Quantum GIS}(toto označení zůstalo až do verze 2.0). V roce 2007 se projekt stal součástí Open Source Geospatial Foundation (\zk{OSGeo}). \cite{qgis_official, qgis_wiki_en, qgis_wiki_cz}
  
 %zdroj: https://www.qgis.org/en/site/, https://cs.wikipedia.org/wiki/QGIS, https://en.wikipedia.org/wiki/QGIS
 %obrazek: https://euipo.europa.eu/copla/image/CJ4JX4FZVCC523YA2TMALSKFLFPOWZHPVHYMP5QREVP2BOXHB3PCM7RCOZR6TEIMWNCQDAB6N25VA
+\section{QGIS VFK Plugin}
+
+\begin{figure}[H]
+	 \centering
+      \includegraphics[height=5cm]{./pictures/Qgisvfkplugin.png}
+      \caption{Ukázka prostředí pluginu (zdroj:
+\href{http://freegis.fsv.cvut.cz/wiki/images/4/4b/Qgisvfkplugin-screenshot-05.png}{fsv.cvut.cz})}
+      \label{fig:qgis}
+  \end{figure}
+
+Jde o zásuvný modul(anglicky plugin) pro geografický informační systém QGIS, který umožňuje práci s daty z českého katastru nemovitostí. Zásuvný modul pracuje s daty v takzvaném novém výměnném formátu katastru, který je označovaný \zk{VFK} nebo \zk{NVF}. Data ze souboru jsou čtena pomocí knihovny \zk{GDAL}. Plugin umožňuje vyhledávání a zobrazování informací při práci s daty katastru nemovitostí. Ovládání je uživatelsky přívětivé a známé vzhledem k podobnému rozhraní jako je u webových aplikací.
+
+V nahraných datech je nyní možné vyhledávat: parcely, budovy, jednotky a oprávněné osoby. Prohlížeč dat umožňuje zobrazit list vlastnictví a další výpisy informací: o parcele, o budově, o jednotce a o oprávněné osobě. Prohlížeč také umožňuje zobrazení aktuálního stavu nemovitosti na stránkách Nahlížení do katastru nemovitostí a export výpisů do formátů HTML a zdrojového kódu LaTeXu(možnost vytvoření PDF a PS\footnote{Programovací jazyk PostScript vyvinutý ke grafickému popisu tisknutelných dokumentů, výhodou je nezávislost na zařízení, ze kterého se tiskne, podobně jako formát PFD\cite{PostScript}})
+
+Zdrojové texty zásuvného modulu je možné stáhnout z \href{https://github.com/ctu-geoforall-lab/qgis-vfk-plugin}{Git repozitáře}. Zdrojové kódy jsou šířeny pod licencí \href{https://raw.githubusercontent.com/ctu-osgeorel/qgis-vfk-plugin/master/LICENSE}{GNU GPL}.
+
+První prototyp(verze 1.x) byl napsán v jazyce C++ a vyvinut studenty oboru Geoinformatika Annou Kratochvílovou a Václavem Petrášem na FSv ČVUT v Praze v roce 2012. Druhá verze 2.x byla vyvíjena v letech 2015 a 2016 studentem stejného oboru Štěpánem Bambulou a byla přepsána do jazyka Python. \citep{vfk_qgis_plugin}
+%http://freegis.fsv.cvut.cz/gwiki/VFK_/_QGIS_plugin
+%https://cs.wikipedia.org/wiki/PostScript
  
 \section{GDAL}
 
