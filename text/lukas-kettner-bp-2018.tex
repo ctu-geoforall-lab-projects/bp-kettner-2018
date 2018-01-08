@@ -35,7 +35,8 @@
 \setlength{\@fpbot}{0pt plus 1fil}
 \makeatletter
 
-\usepackage[dvips]{graphics} %graphicx   
+\usepackage[dvips]{graphics}
+\usepackage{graphicx}   
 \usepackage{color}
 \usepackage{transparent}
 \usepackage{wrapfig}
@@ -53,7 +54,7 @@
 \counterwithout{footnote}{chapter}
 
 \usepackage{acronym}
-
+\usepackage{multirow} %pouziti u tabulky, vice radku v jednom
 \usepackage[
     unicode,                
     breaklinks=true,        
@@ -70,6 +71,19 @@
 \usepackage{fancyhdr}
 %\usepackage{algorithmic}
 \usepackage{algorithm}
+\usepackage{listings}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\lstdefinestyle{mystyle}{
+	backgroundcolor=\color{backcolour},
+	rulecolor=\color{backcolour},
+	captionpos=b,
+	numbers=left,
+	numbersep=5pt,
+	stringstyle=\color{codegreen},
+	frame=shadowbox
+}
+\lstset{style=mystyle}
 \usepackage{algcompatible}
 \renewcommand{\ALG@name}{Pseudokód}% Update algorithm name
 \def\ALG@name{Pseudokód}
