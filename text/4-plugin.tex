@@ -1,126 +1,178 @@
 \chapter{Knihovna publicvfk}
 \label{4-plugin}
-Tato kapitola bude věnována informacím o nové knihovně \textbf{publicvfk} pro zásuvný modul \textit{QGIS VFK Plugin} a její integraci do zásuvného modulu. Bude uvedeno co je pro knihovnu vstupem a co výstupem. Dále bude ukázána funkčnost na testovacích datech a doplněny informace o způsobu integrace do výše zmíněného zásuvného moudlu \textit{QGIS VFK Plugin}. Pro tvorbu bylo čerpáno ze zdrojů \cite{cookbook, ucebnicepython}.
+Tato kapitola bude věnována informacím o nové knihovně \textbf{publicvfk} pro zásuvný modul \textit{QGIS VFK Plugin} a její integraci do zásuvného modulu. Bude popsána funkčnost knihivny, uvedeno co je pro knihovnu vstupem a co výstupem. Dále bude ukázána funkčnost na testovacích datech a doplněny informace o způsobu integrace do výše zmíněného zásuvného moudlu \textit{QGIS VFK Plugin}. Pro tvorbu bylo čerpáno ze zdrojů \cite{cookbook, ucebnicepython}.
+
+\section{Funkčnost knihovny}
+\label{sec:funknost_knihovny}
+Knihovna načte pomocí VFK driveru(\ref{subsec:gdal_vfk}) textový soubor ve formátu \zk{VFK}, čímž vznikne SQL databáze s načtenými daty. \zk{VFK} soubor již není dále využíván, knihovna místo toho přistupuje k vytvořené databázi. Dále je zkontrolována verze knihovny GDAL, která když není vyšší než 2.2, tak musí být proveden příkaz \verb|self.dsn_vfk.GetLayerByName('HP').GetFeature(1)|, díky kterému dojde k sestavení geometrie všech datových bloků před blokem hranic parcel(HP), viz.\ref{sec:sestaveni_geometrie}.
+
+Pro správné fungování při načítání dat z databáze je nezbytné přidat do databáze tabulku geometrie (\verb|geometry columns|) a tabulku souřadnicového systému (\verb|spatial_ref_sys|). Dojde tak k vytvoření prostorové databáze\footnote{Databáze ukládající prostorovou složku dat.}. SQLite driver bez tabulek nerozezná datový typ vrstev. Novější verze knihovny si s absencí tabulek dokáže poradit, resp už si tabulky vytváří sama.
+
+Po vytvoření prostorové databáze následuje postupně vytvoření tabulky s názvem PAR pro parcely, sestavení a zapsání geometrie parcel i s atributy, vytvoření tabulky s názvem BUD pro budovy a sestavení a zapsání geometrie budov včetně atributů.
+
+Pro sestavení geometrie parcel je využito datového bloku HP (Hranice parcel), kde je možné pomocí atributů \verb|PAR_ID_1| a \verb|PAR_ID_2|(\ref{subsec:bloky_par_bud}) zjistit seznam všech parcel a příslušné hranice jedné parcely. Samotná geometrie parcel je sestavená geometrickou cestou, tedy postupným sestavováním hranici po hranici parcelu po parcele.
+
+\begin{algorithm}
+\caption{Logika sestavení a uložení geometrie parcel}
+\label{alg:sestaveni_parcely}
+	\begin{algorithmic}[1]
+	\STATE{číslaParcel = zjisti SQL příkazem unikátní čísla parcel}
+	\STATE{NeuzavřenéParcely = prázdný seznam}
+	\STATE{Začátek transakce}
+	\FOR{Parcela \textbf{in} číslaParcel}
+		\STATE{seznamGeometriíHranice = prázdný seznam}
+		\FOR{prvek \textbf{in} filtrVrstvy(vrstva = HraniceParcel, filtr = Parcela)}
+			\STATE{geometrie = geometrie prvku}
+			\STATE{přidej geometrie do seznamGeometriíHranice}
+		\ENDFOR
+		\STATE{polygonGeometrie = sestav geometrii ze seznamGeometriíHranice}
+		\IF{polygonGeometrie \textbf{is not} prázdný}
+			\STATE{převeď polygonGeometrie do roviny(2D)}
+		\ELSE
+			\STATE{Přidej číslo parcely do NeuzavřenéParcely}
+		\ENDIF
+		\STATE{Vytvoř nový řádek v tabulce}
+		\STATE{Nastav geometrii sestavované parcely do nového řádku}
+		\STATE{Nastav hodnotu do sloupce \verb|"id_par"| pro nový řádek}
+		\STATE{Nastav hodnotu do sloupců \verb|"kmenove_cislo_par"|, \verb|"poddeleni_cisla_par"| pro nový řádek}
+		\STATE{Přidej nově vytvořený řádek do tabulky}
+	\ENDFOR
+	\STATE{Konec transakce}
+	\end{algorithmic}
+\end{algorithm}
+
+K sestavení geometrie budov je využit datový blok SBP (spojení bodů polohopisu) a blok OB (obrazy budov). Nejprve jsou zjištěna z bloku OB unikátní identifikační čísla budov včetně příslušných identifikačních čísel hranic budov, pro které je následně vyhledána geometrie v tabulce SBP. Sestavení geometrie budov probíhá také geometrickou cestou. 
+%zdroj: http://gdal.org/drv_sqlite.html
 
 \section{Vstupní data}
-Vstupními daty pro knihovnu je textový soubor ve formátu VFK s neúplnými daty. Knihovna přebírá adresu vstupního souboru a dochází k načtení dat a zápisu do databáze.
-\subsection{Testovací data}
-Zabalená testovací data ve formátu VFK byla stažena pro katastrální území Abertamy na adrese: \href{http://services.cuzk.cz/vfk/ku/20170901/600016.zip}{http://services.cuzk.cz/vfk/ku/20170901/600016.zip}.
+Vstupními daty pro knihovnu je textový soubor ve formátu \zk{VFK} s neúplnými daty(\ref{subsec:neuplna_data}). Knihovna přebírá adresu vstupního souboru, dochází k načtení dat a zápisu do databáze.
 
+\subsection{Testovací data}
+Zkomprimovaná testovací data ve formátu VFK byla stažena pro katastrální území Abertamy na adrese: \href{http://services.cuzk.cz/vfk/ku/20170901/600016.zip}{http://services.cuzk.cz/vfk/ku/20170901/600016.zip}.
+{\scriptsize
+\begin{lstlisting}[caption=Ukázka bloku hranic parcel(HP) -- definice bloků a věty dat(zdroj:vlastní), label=lst:data]
+&BHP;ID N30;STAV_DAT N2;DATUM_VZNIKU D;DATUM_ZANIKU D;PRIZNAK_KONTEXTU N1;
+RIZENI_ID_VZNIKU N30;RIZENI_ID_ZANIKU N30;TYPPPD_KOD N10;PAR_ID_1 N30;PAR_ID_2 N30
+&DHP;3491827403;0;"07.04.2009 08:59:39";"";3;1991606403;;21900;706860403;708070403 
+&DHP;3491828403;0;"07.04.2009 08:59:39";"";3;1991606403;;21900;706860403;708070403
+&DHP;3491829403;0;"07.04.2009 08:59:39";"";3;1991606403;;21900;706860403;708070403
+&DHP;3491830403;0;"07.04.2009 08:59:39";"";3;1991606403;;21900;706860403;708070403
+&DHP;3491831403;0;"07.04.2009 08:59:39";"";3;1991606403;;21900;706860403;708070403
+\end{lstlisting}}
+Na řádcích 1-2~(\ref{lst:data}) je rozdělený uvozovací řádek datového bloku HP(hranic parcel).Řádky 3-7~(\ref{lst:data}) představují věty dat, ve kterých jsou uložena vlastní data ve stanoveném pořadí.
+\subsection{Funkčnost knihovny s testovacími daty}
+Databáze sice obsahuje datové vrstvy, ale SQL driver není schopen je rozeznat, proto mají všechny hodnotu None. Zároveň databáze neobsahuje bloky parcel a budov.
 \begin{figure}[H]
 	 \centering
-      \includegraphics[width=15cm]{./pictures/testovaci_data.png}
-      \caption{Ukázka bloku hranic parcel(HP) -- definice bloků a věty dat(zdroj:vlastní)}
-      \label{fig:testovaci_data}
-  \end{figure}
-\begin{table}  
-\caption{Ukázka bloku hranic parcel(HP) -- definice bloků a věty dat(zdroj:vlastní)}
-\noindent\begin{tabular}{|p{\textwidth}|}
-    \hline
-    Zkouška vysázení \_ nebo třeba \% a co takhle \& to funguje? Zkouška vysázení \_ nebo třeba \% a co takhle \& to funguje? Zkouška vysázení \_ nebo třeba \% a co takhle \& to funguje?  \\ \hline
-    Tak tohle už vypadá lépe: \_ nebo třeba \% \\ \hline
-    kmenove\_cislo\_par \\ \hline
-    \hline 
-    \end{tabular}
-\end{table}
-
+      \includegraphics[height=5cm]{./pictures/funkcnost_knihovny_pred.png}
+      \caption{Databáze před použitím knihovny(zdroj:vlastní)}
+      \label{fig:funkcnost_pred}
+\end{figure}
+Po použití knihovny SQL driver rozezná díky přidaným tabulkám datové bloky. Databáze navíc obsahuje sestavené bloky parcel \textbf{PAR(Polygon)} a budov \textbf{BUD(Polygon)}. 
+\begin{figure}[H]
+	 \centering
+     \includegraphics[height=3cm]{./pictures/funkcnost_knihovny_po.png}
+     \caption{Databáze po použití knihovny(zdroj:vlastní)}
+     \label{fig:funkcnost_po}
+\end{figure}  
+  
 \section{Výstupní data}
-Výstupem k knihovny je sestavená geometrie pro bloky parcel a budov. Geometrie je společně s dalšími hodnotami jako je identifikační číslo, číslo parcely zapsána do vytvořené databáze.
+Výstupem k knihovny je sestavená geometrie pro bloky parcel a budov. Geometrie je společně s dalšími hodnotami jako je identifikační číslo, číslo parcely zapsána do VFK Driverem\ref{subsec:gdal_vfk} vytvořené databáze.
+
 \section{Popis tříd knihovny a jejich metod}
 V této podkapitole budou představeny jednotlivé třídy knihovny, jejich členské metody a popsáno, co která třída a metoda obstarává.
+
 \subsection{VFKBuilderError}
 Tato třída dědí vlastnosti třídy Exception a je volána v případě, že nastane chyba. To se může stát není-li připojen \zk{VFK} souboru nebo databáze.
 \subsection{VFKBuilder}
 Mateřská třída, která obsahuje společné metody tříd VFKParBuilder a VFKBudBuilder určených pro sestavení geometrie parcel i budov.
-\begin{itemize}
+\begin{itemize}[leftmargin=50pt]
 \item \verb|__init__()|
 		
-V konstruktoru třídy dochází k vytvoření tabulky geometrie (\verb|geometry columns|) a tabulky souřadného systému (\verb|spatial_ref_sys|), bez kterých by nebylo možné číst geometrii z databáze. V případě nepřipojeného zdroje dat - \zk{VFK} souboru, je volána třída VFKBuilderError a zobrazena chybová hláška.
+V konstruktoru třídy dochází k vytvoření tabulky geometrie (\verb|geometry columns|) a tabulky souřadnicového systému (\verb|spatial_ref_sys|), bez kterých by nebylo možné číst geometrii z databáze. V případě nepřipojeného zdroje dat - \zk{VFK} souboru, je volána třída VFKBuilderError a zobrazena chybová hláška.
 \item \verb|build_bound()|
 
-Jedna z hlavních metod, která sestavuje geometrii jednotlivých hranic. V případě hranice s dírami dojde k vytvoří seznamu s více geometriemi, ve kterém je nalezena největší a ze zbylých geometrií jsou vytvořeny díry. Sestavení probíhá geometrickou cestou. Nejdříve je přidána první hranice, poté hranice co začíná koncovým bodem první hranice a tak dokola. Na závěr je otestováno uzavření všech hranic v seznamu geometrií.
+Hlavních metod, která sestavuje geometrii jednotlivých hranic. V případě hranice s dírami dojde k vytvoří seznamu s více geometriemi, ve kterém je nalezena největší a ze zbylých geometrií jsou vytvořeny díry. Sestavení probíhá geometrickou cestou. Nejdříve je přidána první hranice, poté hranice co začíná koncovým bodem první hranice a tak dokola. Na závěr je otestováno uzavření všech hranic v seznamu geometrií(první bod hranice je shodný s posledním bodem hranice).
 \item \verb|add_boundary()|
 
 Metoda pro přidávání jedné hranice do geometrie. Přidávání hranice probíhá bod po bodu a přidaná hranice je ze seznamu hranic po přidání do geometrie odstraněna, aby se seznam zmenšil. Všechny hranice nemají stejnou orientaci(některé na sebe navazují koncovými body), tudíž je potřeba body hranice přidávat "odzadu".
-\item \verb|get_sql_commands_from_file()|
+\item \verb|filter_layer()|
 
-Metoda otevírající soubor a vracející seznam SQL příkazů.
-\item \verb|add_tables()|
+Na základě specifikovaného atributového filtru a názvu datového bloku vrací výsledné hodnoty uložené v seznamu.
+\item \verb|executeSQL()|
 
-Provádí příkazy, které dostane z metody \verb|get_sql_commands_from_file()|. Po ukončení cyklu s SQL příkazy je třeba zavolat metodu \textit{commit()} jinak nedojde z provedení posledního příkazu. Příkazy probíhají interně v transakci, kterou je třeba pro správné provedení ukončit.
+Provadí sql dotaz v databázi a vrací výsledek uložený do seznamu.
+
 \end{itemize}
 \subsection{VFKBudBuilder}
 Potomek třídy \textbf{VFKBuilder}. Třída sestavuje geometrii budov a ukládá ji do nově vytvořené tabulky BUD v databázi. Ukládání probíhá v transakci.
-\begin{itemize}
+\begin{itemize}[leftmargin=50pt]
 \item \verb|__init__()|
 
 Konstruktor třídy, kde je vytvořena nová tabulka pro budovy -- BUD a atribut \verb|id_bud|.
-\item \verb|get_bud_id()|
-
-SQL dotazem zjistí unikátní seznam identifikačních čísel budov. Dále vytvoří list, do kterého uloží seznamy s identifikačními čísly bodů pro každou budovu zvlášť.
-\item \verb|filter_sbp()|
-
-Na základě identifikačního čísla budovy najde všechny hranice, které k dané budově patří a vrací je uložené v seznamu. Volána třída VFKBuilderError v případě nepřipojené databáze.
 \item \verb|build_all_bud()|
 
-Zde probíhá samotné sestavení všech budov. Po sestavení je budova uložena do databáze i s příslušnými atributy. Metodě je možné nastavit kolik budov má sestavit. Základně dochází k sestavení všech budov.
+Metoda se stará o sestavení všech nebo jen části budov. To je možné nastavit parametrem limit. Po sestavení probíhá v transakci uložení geometrií a atributů do tabulky BUD v databázi.
 \end{itemize}
 \subsection{VFKParBuilder}
 Potomek třídy \textbf{VFKBuillder}. V této třídě dochází k samotnému sestavení geometrie parcel, vytvoření nové tabulky PAR v databázi a zapsání dat. Zapisuje se identifikační číslo parcely(\verb|par_id|), kmenové číslo parcely(\verb|kmenove_cislo_par|), poddělení čísla parcely(\verb|poddeleni_cisla_par|) a samozřejmě geometrie dané parcely. Zápis do databáze je proveden v transakci, čímž je zaručené korektní zapsání všech parcel nebo žádné -- v případě chyby.
 
-\begin{itemize}
+\begin{itemize}[leftmargin=50pt]
 \item \verb|__init__()|
 
 Konstruktor třídy, kde je vytvořena nová tabulka pro parcely -- PAR včetně atributů.
-\item \verb|get_par()|
-		
-Tato metoda vrací seznam unikátních identifikačních čísel parcel, který získá SQL dotazem, ve formátu seznamu. Volána třída VFKBuilderError v případě nepřipojené databáze.
-\item \verb|filter_hp()|
-
-Na základě identifikačního čísla parcely najde všechny hranice, které k dané parcele patří a vrací je uložené v seznamu. Volána třída VFKBuilderError v případě nepřipojené databáze.
 \item \verb|build_all_par()|
 
 Zde probíhá samotné sestavení všech parcel. Po sestavení je parcela uložena do databáze i s příslušnými atributy. Metodě je možné nastavit kolik parcel má sestavit. Základně dochází k sestavení všech parcel.
 
 \end{itemize}
-\section{Integrace knihovny}
-Základem integrace bylo správné umístění do kódu zásuvného modulu. Bylo potřeba zachovat funkcionalitu při otevření úplných i neúplných dat. Jsou-li data úplná, funguje zásuvný modul standardně. Pokud data neobsahují bloky PAR a BUD -- jsou neúplná, dojde k jejich sestavení a tedy zavolání třídy z nově integrované knihovny \textbf{publicvfk}.
+\section{Integrace knihovny do zásuvného modulu}
+Základem integrace bylo správné umístění do kódu zásuvného modulu, přesněji do souboru \textit{mainApp.py}. Bylo potřeba zachovat funkcionalitu při otevření úplných i neúplných dat. Jsou-li data úplná, funguje zásuvný modul standardně. Pokud data neobsahují bloky PAR a BUD -- jsou neúplná, dojde k jejich sestavení a tedy zavolání třídy z nově integrované knihovny \textbf{publicvfk}.
 
 Nejdříve je knihovna pomocí metody import nahrána. Dále je ve funkci \textbf{loadVfkFile()} proveden test na přítomnost bloku parcel('PAR') pomocí metody GetLayerName():
+\begin{lstlisting}[language=Python]
+t_par = self.__mOgrDataSource.GetLayerByName('PAR')
+\end{lstlisting}
+Předpokladem je, že bloky parcel a budov jsou v datech obsaženy oba nebo žádný, proto je testována jen přítomnost bloku parcel. Není-li blok obsažen, dojde k uzavření zdroje dat:
+\begin{lstlisting}[language=Python]
+self.__mOgrDataSource = None
+\end{lstlisting}
+, aby mohlo proběhnout sestavení bloků. Knihovna si vytváří vlastní připojení k \zk{VFK} souboru a databázi, proto je třeba zdroj dat uzavřít a předejít tak zdvojenému připojení k \zk{VFK} souboru či databázi. Vícenásobné připojení může způsobit chybu. Následuje sestavení neobsažených bloků parcel a budov z knihovny \textbf{publicvfk}. O sestavení parcel se postará třída \textit{VFKParBuilder} a o sestaveni budov třída \textit{VFKBudBuilder}. Nejprve jsou deklarovány objekty dané třídy a následně jsou volány metody pro sestavení geometrií:
+\begin{lstlisting}[language=Python]
+# Build Parcels
+parcels = VFKParBuilder(fileName)
+parcels.build_all_par()
+# Build Buildings
+buildings = VFKBudBuilder(fileName)
+buildings.build_all_bud()
+\end{lstlisting}
+Po sestavení bloků parcel a budov je zdroj dat pomocí proměnné prostředí nastaven na databázi, která vznikne o adresář výš při otevření \zk{VFK} souboru a nese jméno \zk{VFK} souboru, kde je místo přípony \verb|.vfk| přípona \verb|_stav.db|:
+{\small
+\begin{lstlisting}[language=Python]
+self.__mOgrDataSource = ogr.Open(os.environ['OGR_VFK_DB_NAME'], 0)
+self.__mDataSourceName = os.environ['OGR_VFK_DB_NAME']
+\end{lstlisting}}
+%self.__mDataSourceName = os.environ['OGR_VFK_DB_NAME'] PROČ, nastavuje zde taky prostredi? 
 
-\verb|t_par = self.__mOgrDataSource.GetLayerByName('PAR')|
-Předpokladem je, že bloky parcel a budov jsou v datech oba nebo žádný, proto je testována jen přítomnost bloku parcel. Není-li blok obsažen, dojde k uzavření zdroje dat:
+V této databázi jsou uložena data z načtení \zk{VFK} souboru a také knihovnou vytvořené tabulky s bloky PAR a BUD. Zásuvný modul z této databáze čerpá data.
 
-\verb|self.__mOgrDataSource = None|
-, aby mohlo proběhnout sestavení bloků. Knihovna si vytváří vlastní připojení k \zk{VFK} souboru a databázi, proto je třeba zdroj dat uzavřít a předejít tak zdvojenému připojení. Následuje sestavení neobsažených bloků:
-
-\verb|# Build Parcels|
-
-\verb|parcels = VFKParBuilder(fileName)|
-
-\verb|parcels.build_all_par()|
-
-\verb|# Build Buildings|
-
-\verb|buildings = VFKBudBuilder(fileName)|
-
-\verb|#buildings.build_all_bud()|
-
-Po sestavení bloků parcel a budov je zdroj dat pomocí proměnné prostředí nastaven na databázi, která vznikne o adresář dřív při otevření \zk{VFK} souboru a nese jméno \zk{VFK} souboru, kde je místo přípony \verb|_stav.db|:
-
-\verb|self.__mOgrDataSource = ogr.Open(os.environ['OGR_VFK_DB_NAME'], 0)|
-
-\verb|self.__mDataSourceName = os.environ['OGR_VFK_DB_NAME']| %proc nastavuje zde taky prostredi?
-
-V této databázi jsou uložena data z načtení \zk{VFK} souboru a také knihovnou vytvořené tabulky s bloky PAR a BUD.
+Při načítání neúplných dat \zk{VFK} může nastat situace, kdy už jsou tabulky parcel a budov nebo jen jednoho bloku v databázi zapsané. SQL driver však bloky nedokáže rozeznat, protože databáze není prostorová, viz.\ref{sec:funknost_knihovny}. Pro tento případ je v knihovně před vytvářením jednotlivé tabulky testováno, jestli databáze blok parcel nebo budov opravdu neobsahuje. Tento test je v kódu umístěn až za přidáním tabulek s geometrií a souřadnicovým systémem, tudíž je nepřítomnost zapsaných dat vyloučena. Zjistí-li se po přidání tabulek, že jsou oba datové bloky -- parcely a budovy v databázi již zapsané, knihovna sestavení neprovede. 
 \section{Testování knihovny}
-Funkčnost knihovny je možné otestovat z příkazové řádky. K testování byl využit modul sys, který je obsažen v základní distribuci Pythonu a díky kterému je možné realizovat množství úloh spojených s interpretrem. Příkaz pro spuštění se skládá z názvů knihovny a vfk souboru včetně přípony, oddělených mezerou. Například: python publicvfk.py 600016.vfk. Jméno knihovny a další argumenty(v našem případě název vfk souboru) předané z příkazové řádky jsou uloženy v proměnné \textit{sys.argv}.
+Funkčnost knihovny je možné otestovat z příkazové řádky. K testování byl využit modul sys, který je obsažen v základní distribuci Pythonu a díky kterému je možné realizovat množství úloh spojených s interpretrem. Příkaz pro spuštění se skládá z názvů knihovny a vfk souboru včetně přípony, oddělených mezerou. Například: \textit{python publicvfk.py 600016.vfk}. Jméno knihovny a další argumenty(v našem případě název vfk souboru) předané z příkazové řádky jsou uloženy v proměnné \textit{sys.argv}, která se chová jako seznam.
 
-Pokud není zadán název knihovny i název vfk souboru, je interpretr ukončen a zobrazena chybová hláška.
-    %if len(sys.argv) != 2:
-        %sys.exit("{} soubor.vfk".format(sys.argv[0]))
+Pokud není zadán název knihovny i název vfk souboru současně, je interpretr ukončen a zobrazena chybová hláška.
+\begin{lstlisting}[language=Python]
+    if len(sys.argv) != 2:
+        sys.exit("{} soubor.vfk".format(sys.argv[0]))
+\end{lstlisting}
 
 Testování je možné jen při přímém spuštění knihovny, nikoli je-li knihovna importována jako modul. K tomu je využita speciální proměnná \verb|__name__|, do které je interpretrem v případě spuštění přímo uložena hodnota \verb|"__main__"| a podmínka je splněna. Je-li knihovna importována z jiného modulu je proměnná \verb|__name__| nastavena na jméno modulu a podmínka není splněna.
- 
-%if __name__ == "__main__":
+\begin{lstlisting}[language=Python]
+if __name__ == "__main__":
+	#Sestaveni bloku primo z knihovny
+    parcel = VFKParBuilder(sys.argv[1])
+    parcel.build_all_par()
+    building = VFKBudBuilder(sys.argv[1])
+    building.build_all_bud()
+\end{lstlisting}
 %ucebnice jazyka Python str 10
