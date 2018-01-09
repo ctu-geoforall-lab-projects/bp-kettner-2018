@@ -1,4 +1,24 @@
 \chapter{Závěr}
 \label{5-zaver}
+%Shrnutí cíle práce
+Cílem mojí bakalářské práce bylo vytvoření nové knihovny, která měla rozšířit funkcionalitu existujícího zásuvného modulu pro QGIS usnadňujícího pracovat s českými katastrálními daty ve formátu \zk{VFK} o načítání neúplných dat výměnného formátu katastru nemovitostí a o sestavení bloků parcel a budov z načtených dat.
 
-Jaké problémy se objevily, jak se naplnila očekávání, co je výsledkem.
+%Upřesněný výsledek
+Podařilo se vytvořit novou knihovnu, která rozšiřuje zásuvný modul a umožňuje načítání úplných i neúplných dat výměnného formátu katastru nemovitostí. Knihovna dále sestavuje z neúplných dat bloky parcel a budov a ukládá je do databáze, která vznikne při načtení dat VFK Driverem knihovny GDAL.
+
+%Komplikace
+Při vytváření knihovny se objevilo pár komplikací, které tvorbu lehce zpomalily. Starší verze knihovny GDAL, ze které byl používán VFK Driver, nesestavovala geometrii automaticky přímo při načítání dat, ale až po provedení dotazu na konkrétní geometrii. Dále VFK Driver do vzniklé databáze po načtení dat nepřidával tabulky s geometrií a souřadnicovým systémem, tudíž databáze nebyla prostorová a SQL driver nedokázal datové bloky rozeznat. Tabulky byly do databáze tedy vloženy a vše fungovalo jak mělo. V nejnovější verzi knihovny jsou oba nedostatky odstraněny. Rozšíření zásuvného modulu bylo vyvíjeno na dvou operačních systémech -- Linux a Windows. Windows se několikrát ukázal jako nevhodný operační systém pro vývoj. Největší komplikace způsobilo použití systémových proměnných, které v prostředí Linuxu fungovalo a v prostředí Windows nikoliv. Situaci vyřešilo až alternativní definování proměnné přes příkaz SetConfigOption().
+
+%Výsledek
+Výsledkem bakalářské práce je rozšířený zásuvný modul pro práci s daty katastru nemovitostí ve formátu \zk{VFK} pro volně dostupný geografický informační systém QGIS. Přidané rozšíření umožňuje načít i neúplná data a sestaví bloky parcel a budov, které jsou v okně systému QGIS vizualizovány.
+
+%Další vývoj
+Sestavování geometrií by se dalo jistě zrychlit. Funkčnost knihovny byla testována na datech z katastrálního území Abertamy, které obsahuje 1680 parcel a 470 budov. Velikost \zk{VFK} souboru je 6,7 MB. U objemnějších dat trvá sestavování výrazně déle.
+
+%Naplnění očekávání
+Práce naplnila moje očekávání a výsledek mě potěšil. Ze začátku jsem si myslel, že s orientačním během nebude mít vůbec nic společného, ale nakonec jsem našel alespoň malou souvislost. Geometrie parcel a budov, která lze sestavit pro jednotlivé katastrální území nebo pracoviště, by se nejspíš dala využít jako podklad pro vytváření městských sprintových map.
+
+%Jaké problémy se objevily-operační systémy, jak se naplnila očekávání.
+%Shrnout cíl práce a popsat výsledek-co knihovna/zásuvný modul nyní umí.
+%Možnost dalšího vylepšení.
+(Distribuce zásuvného modulu)
