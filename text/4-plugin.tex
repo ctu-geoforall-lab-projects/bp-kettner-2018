@@ -10,7 +10,7 @@ Pro správné fungování při načítání dat z databáze je nezbytné přidat
 
 Po vytvoření prostorové databáze následuje postupně vytvoření tabulky s názvem PAR pro parcely, sestavení a zapsání geometrie parcel i s atributy, vytvoření tabulky s názvem BUD pro budovy a sestavení a zapsání geometrie budov včetně atributů.
 
-Pro sestavení geometrie parcel je využito datového bloku HP (Hranice parcel), kde je možné pomocí atributů \verb|PAR_ID_1| a \verb|PAR_ID_2|(\ref{subsec:bloky_par_bud}) zjistit seznam všech parcel a příslušné hranice jedné parcely. Samotná geometrie parcel je sestavená geometrickou cestou, tedy postupným sestavováním hranici po hranici parcelu po parcele.
+Pro sestavení geometrie parcel je využito datového bloku HP (Hranice parcel), kde je možné pomocí atributů \verb|PAR_ID_1| a \verb|PAR_ID_2|(\ref{subsec:bloky_par_bud}) zjistit seznam všech parcel a příslušné hranice jedné parcely. Samotná geometrie parcel je sestavená geometrickou cestou, tedy postupným sestavováním hranici po hranici parcelu po parcele. Následující pseudokód(\ref{alg:sestaveni_parcely}) popisuje proces sestavení a uložení geometrie parcel. Na řádku 10 je volána metoda \verb|build_bound()|(\ref{subsec:sestaveni_geometrie}) pro sestavení samotné geometrie, jejíž princip je znázorněn diagramem v příloze \ref{fig:logika_geometrie}.
 
 \begin{algorithm}
 \caption{Logika sestavení a uložení geometrie parcel}
@@ -41,7 +41,7 @@ Pro sestavení geometrie parcel je využito datového bloku HP (Hranice parcel),
 	\end{algorithmic}
 \end{algorithm}
 
-K sestavení geometrie budov je využit datový blok SBP (spojení bodů polohopisu) a blok OB (obrazy budov). Nejprve jsou zjištěna z bloku OB unikátní identifikační čísla budov včetně příslušných identifikačních čísel hranic budov, pro které je následně vyhledána geometrie v tabulce SBP. Sestavení geometrie budov probíhá také geometrickou cestou. 
+K sestavení geometrie budov je využit datový blok SBP (spojení bodů polohopisu) a blok OB (obrazy budov). Nejprve jsou zjištěna z bloku OB unikátní identifikační čísla budov včetně příslušných identifikačních čísel hranic budov, pro které je následně vyhledána geometrie v tabulce SBP. Sestavení geometrie budov probíhá také geometrickou cestou. Logika sestavování geometrie je znázorněna diagramem v příloze, viz. \ref{fig:logika_geometrie}.
 %zdroj: http://gdal.org/drv_sqlite.html
 
 \section{Vstupní data}
@@ -68,7 +68,7 @@ Databáze sice obsahuje datové vrstvy, ale SQL driver není schopen je rozeznat
       \caption{Databáze před použitím knihovny(zdroj:vlastní)}
       \label{fig:funkcnost_pred}
 \end{figure}
-Po použití knihovny SQL driver rozezná díky přidaným tabulkám datové bloky. Databáze navíc obsahuje sestavené bloky parcel \textbf{PAR(Polygon)} a budov \textbf{BUD(Polygon)}. 
+Po použití knihovny SQL driver rozezná díky přidaným tabulkám datové bloky. Databáze již obsahuje sestavené bloky parcel \textbf{PAR(Polygon)} a budov \textbf{BUD(Polygon)}. 
 \begin{figure}[H]
 	 \centering
      \includegraphics[height=3cm]{./pictures/funkcnost_knihovny_po.png}
@@ -85,6 +85,7 @@ V této podkapitole budou představeny jednotlivé třídy knihovny, jejich čle
 \subsection{VFKBuilderError}
 Tato třída dědí vlastnosti třídy Exception a je volána v případě, že nastane chyba. To se může stát není-li připojen \zk{VFK} souboru nebo databáze.
 \subsection{VFKBuilder}
+\label{subsec:sestaveni_geometrie}
 Mateřská třída, která obsahuje společné metody tříd VFKParBuilder a VFKBudBuilder určených pro sestavení geometrie parcel i budov.
 \begin{itemize}[leftmargin=50pt]
 \item \verb|__init__()|
@@ -138,6 +139,7 @@ Předpokladem je, že bloky parcel a budov jsou v datech obsaženy oba nebo žá
 self.__mOgrDataSource = None
 \end{lstlisting}
 , aby mohlo proběhnout sestavení bloků. Knihovna si vytváří vlastní připojení k \zk{VFK} souboru a databázi, proto je třeba zdroj dat uzavřít a předejít tak zdvojenému připojení k \zk{VFK} souboru či databázi. Vícenásobné připojení může způsobit chybu. Následuje sestavení neobsažených bloků parcel a budov z knihovny \textbf{publicvfk}. O sestavení parcel se postará třída \textit{VFKParBuilder} a o sestaveni budov třída \textit{VFKBudBuilder}. Nejprve jsou deklarovány objekty dané třídy a následně jsou volány metody pro sestavení geometrií:
+
 \begin{lstlisting}[language=Python, numbers=none]
 # Build Parcels
 parcels = VFKParBuilder(fileName)
@@ -146,6 +148,7 @@ parcels.build_all_par()
 buildings = VFKBudBuilder(fileName)
 buildings.build_all_bud()
 \end{lstlisting}
+
 Po sestavení bloků parcel a budov je zdroj dat pomocí proměnné prostředí nastaven na databázi, která vznikne o adresář výš při otevření \zk{VFK} souboru a nese jméno \zk{VFK} souboru, kde je místo přípony \verb|.vfk| přípona \verb|_stav.db|:
 {\small
 \begin{lstlisting}[language=Python, numbers=none]
@@ -158,13 +161,27 @@ V této databázi jsou uložena data z načtení \zk{VFK} souboru a také knihov
 
 Při načítání neúplných dat \zk{VFK} může nastat situace, kdy už jsou tabulky parcel a budov nebo jen jednoho bloku v databázi zapsané. SQL driver však bloky nedokáže rozeznat, protože databáze není prostorová, viz.\ref{sec:funknost_knihovny}. Pro tento případ je v knihovně před vytvářením jednotlivé tabulky testováno, jestli databáze blok parcel nebo budov opravdu neobsahuje. Tento test je v kódu umístěn až za přidáním tabulek s geometrií a souřadnicovým systémem, tudíž je nepřítomnost zapsaných dat vyloučena. Zjistí-li se po přidání tabulek, že jsou oba datové bloky -- parcely a budovy v databázi již zapsané, knihovna sestavení neprovede. 
 \section{Testování knihovny}
-Funkčnost knihovny je možné otestovat z příkazové řádky. K testování byl využit modul sys, který je obsažen v základní distribuci Pythonu a díky kterému je možné realizovat množství úloh spojených s interpretrem. Příkaz pro spuštění se skládá z názvů knihovny a vfk souboru včetně přípony, oddělených mezerou. Například: \textit{python publicvfk.py 600016.vfk}. Jméno knihovny a další argumenty(v našem případě název vfk souboru) předané z příkazové řádky jsou uloženy v proměnné \textit{sys.argv}, která se chová jako seznam.
+Funkčnost knihovny je možné otestovat z příkazové řádky. K testování byl využit modul sys, který je obsažen v základní distribuci Pythonu a díky kterému je možné realizovat množství úloh spojených s interpretrem. Příkaz pro spuštění se skládá z názvů knihovny a \zk{VFK} souboru včetně přípony, oddělených mezerou. Například: \textit{python publicvfk.py 600016.vfk}, viz. \ref{fig:testovani_ukazka}. Jméno knihovny a další argumenty(v našem případě název \zk{VFK} souboru) předané z příkazové řádky jsou uloženy v proměnné \textit{sys.argv}, která se chová jako seznam.
 
-Pokud není zadán název knihovny i název vfk souboru současně, je interpretr ukončen a zobrazena chybová hláška.
-\begin{lstlisting}[language=Python, numbers=none]
+\begin{figure}[H]
+	 \centering
+      \includegraphics[height=7cm]{./pictures/testovani_ukazka.png}
+      \caption{Ukázka testovacího spuštění knihovny}
+      \label{fig:testovani_ukazka}
+  \end{figure}
+
+Zadání názvu knihovny i názvu \zk{VFK} souboru současně kontroluje podmínka(\ref{lst:chyba}),pokud je spuštění knihovny nekorektní je interpretr ukončen a zobrazena chybová hláška(\ref{fig:testovani_hlaska}).
+\begin{lstlisting}[caption=Podmínka pro spouštěcí příkaz, language=Python, label=lst:chyba, numbers=none]
     if len(sys.argv) != 2:
         sys.exit("{} soubor.vfk".format(sys.argv[0]))
 \end{lstlisting}
+
+\begin{figure}[H]
+	 \centering
+      \includegraphics[height=7cm]{./pictures/testovani_hlaska.png}
+      \caption{Chybová hláška včetně nekompletního příkazu při nesprávném použití knihovny}
+      \label{fig:testovani_hlaska}
+  \end{figure}
 
 Testování je možné jen při přímém spuštění knihovny, nikoli je-li knihovna importována jako modul. K tomu je využita speciální proměnná \verb|__name__|, do které je interpretrem v případě spuštění přímo uložena hodnota \verb|"__main__"| a podmínka je splněna(viz.\ref{lst:podminka}). Je-li knihovna importována z jiného modulu je proměnná \verb|__name__| nastavena na jméno modulu a podmínka není splněna.
 \begin{lstlisting}[caption=Ukázka sestavení bloků provedeném jen při přímém spuštění knihovny, language=Python, numbers=none, label=lst:podminka]
