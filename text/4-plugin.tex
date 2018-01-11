@@ -80,6 +80,7 @@ Po použití knihovny SQL driver rozezná díky přidaným tabulkám datové blo
 Výstupem k knihovny je sestavená geometrie pro bloky parcel a budov. Geometrie je společně s dalšími hodnotami jako je identifikační číslo, číslo parcely zapsána do VFK Driverem\ref{subsec:gdal_vfk} vytvořené databáze.
 
 \section{Popis tříd knihovny a jejich metod}
+\label{sec:popis_trid}
 V této podkapitole budou představeny jednotlivé třídy knihovny, jejich členské metody a popsáno, co která třída a metoda obstarává.
 
 \subsection{VFKBuilderError}
@@ -128,6 +129,7 @@ Zde probíhá samotné sestavení všech parcel. Po sestavení je parcela ulože
 
 \end{itemize}
 \section{Integrace knihovny do zásuvného modulu}
+\label{sec:integrace_knihovny}
 Základem integrace bylo správné umístění do kódu zásuvného modulu, přesněji do souboru \textit{mainApp.py}. Bylo potřeba zachovat funkcionalitu při otevření úplných i neúplných dat. Jsou-li data úplná, funguje zásuvný modul standardně. Pokud data neobsahují bloky PAR a BUD -- jsou neúplná, dojde k jejich sestavení a tedy zavolání třídy z nově integrované knihovny \textbf{publicvfk}.
 
 Nejdříve je knihovna pomocí metody import nahrána. Dále je ve funkci \textbf{loadVfkFile()} proveden test na přítomnost bloku parcel('PAR') pomocí metody GetLayerName():
