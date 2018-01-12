@@ -1,6 +1,10 @@
 \chapter{Použité technologie}
 \label{3-technologie}
-V této kapitole budou zmíněny programy, které byly pro tvorbu bakalářské práce využity. Patří sem hlavně programovací jazyk Python, geografický informační systém QGIS, pro který zásuvný modul vzniká a s ním spojenou knihovnu GDAL. Qt Project byl využit k lepší orientace ve zdrojovém kódu zásuvného modulu.
+V této kapitole budou zmíněny programy, které byly pro tvorbu
+bakalářské práce využity. Patří sem hlavně programovací jazyk Python,
+geografický informační systém QGIS, pro který zásuvný modul vzniká a s
+ním spojenou knihovnu GDAL. Qt Project byl využit k lepší orientace ve
+zdrojovém kódu zásuvného modulu.
 
 \section{Python}
 \label{sec:python}
@@ -12,9 +16,26 @@ V této kapitole budou zmíněny programy, které byly pro tvorbu bakalářské 
       \label{fig:python}
   \end{figure}
   
-Za autora programovacího jazyka Python je považován Guido vam Roosum, který byl v roli hlavního programátora. Počátek vývoje jazyka Python byl v roce 1990 na Stichtig Mathematisch Centrum v Nizozemí. Základy vychází z programovacího jazyka ABC, který Guido do té doby vyvíjel. Python je volně dostupný včetně standardních knihoven, dokumentace a zdrojových kódů. V roce 2001 vznikla nezisková organizace Python Software Foundation, která je vlastníkem veškerých intelektuálních materiálů souvisejících s programovacím jazykem Python. Spravuje open source\footnote{Jedná se o volně dostupné technologie} licence Pythonu od verze 2.1 a výš. Zároveň se stará o ochranou známku jazyka. Jedním ze sponzorů neziskové organizace je i společnost Digital Creations, pod kterou vývoj jazyka také probíhal.
+Za autora programovacího jazyka Python je považován Guido vam Roosum,
+který byl v roli hlavního programátora. Počátek vývoje jazyka Python
+byl v roce 1990 na Stichtig Mathematisch Centrum v Nizozemí. Základy
+vychází z programovacího jazyka ABC, který Guido do té doby
+vyvíjel. Python je volně dostupný včetně standardních knihoven,
+dokumentace a zdrojových kódů. V roce 2001 vznikla nezisková
+organizace Python Software Foundation, která je vlastníkem veškerých
+intelektuálních materiálů souvisejících s programovacím jazykem
+Python. Spravuje open source\footnote{Jedná se o volně dostupné
+  technologie} licence Pythonu od verze 2.1 a výš. Zároveň se stará o
+ochranou známku jazyka. Jedním ze sponzorů neziskové organizace je i
+společnost Digital Creations, pod kterou vývoj jazyka také probíhal.
 
-Python účinně a efektivně pracuje s vysokoúrovňovými datovými typy. Syntaxe jazyka a dynamické typy z něj dělají vhodný nástroj pro psaní skriptů a rychlý vývoj aplikací (\zk{RAD}). Tento jazyk si snadno oblíbí začátečníci, pro které je čtení a porozumění syntaxe relativně snadné. Další výhodou je spustitelnost interpretru na velkém množství platforem zahrnující Linux, Windows, MacOS a DOS. \cite{ucebnicepython, python}
+Python účinně a efektivně pracuje s vysokoúrovňovými datovými
+typy. Syntaxe jazyka a dynamické typy z něj dělají vhodný nástroj pro
+psaní skriptů a rychlý vývoj aplikací (\zk{RAD}). Tento jazyk si
+snadno oblíbí začátečníci, pro které je čtení a porozumění syntaxe
+relativně snadné. Další výhodou je spustitelnost interpretru na velkém
+množství platforem zahrnující Linux, Windows, MacOS a
+DOS. \cite{ucebnicepython, python}
 
 %obrazek: https://www.raspberrypi.org/documentation/usage/python/images/python-logo.png
 %zdroje:https://www.python.org/ a https://i.iinfo.cz/files/root/k/Ucebnice_jazyka_Python.pdf
@@ -28,9 +49,24 @@ Python účinně a efektivně pracuje s vysokoúrovňovými datovými typy. Synt
       \label{fig:qgis}
   \end{figure}
   
-Jedná se o volně dostupný geografický informační systém (\zk{GIS}), který slouží pro práci s geodaty \footnote{Data s prostorovou a atributovou složkou, která se vztahují ke konkrétnímu místu na Zemi.}. Program je open source s licencí pod GNU General Public License. QGIS je oficiálním projektem Open Source Geospatial Foundation(\zk{OSGeo}) a  je spustitelný na nejužívanějších operačních systémech jako Windows, Linux, MacOS. Samotný systém je napsaný v jazyce C++ a jeho výhodou je velké množství nejrůznějších rozšíření (zásuvných modulů), které je možné snadno doinstalovat. Zásuvné moduly mohou být napsané nejen v C++, ale také v programovacím jazyce Python. QGIS podporuje velké množství formátů -- rastrových, vektorových i databázových. Aktuálně nejnovější verze je 2.18.15 nazvaná \textit{Las Palmas} a vydaná dne 8.12.2017.
+Jedná se o volně dostupný geografický informační systém (\zk{GIS}),
+který slouží pro práci s geodaty \footnote{Data s prostorovou a
+  atributovou složkou, která se vztahují ke konkrétnímu místu na
+  Zemi.}. Program je open source s licencí pod GNU General Public
+License. QGIS je oficiálním projektem Open Source Geospatial
+Foundation(\zk{OSGeo}) a je spustitelný na nejužívanějších operačních
+systémech jako Windows, Linux, MacOS. Samotný systém je napsaný v
+jazyce C++ a jeho výhodou je velké množství nejrůznějších rozšíření
+(zásuvných modulů), které je možné snadno doinstalovat. Zásuvné moduly
+mohou být napsané nejen v C++, ale také v programovacím jazyce
+Python. QGIS podporuje velké množství formátů -- rastrových,
+vektorových i databázových. Aktuálně nejnovější verze je 2.18.15
+nazvaná \textit{Las Palmas} a vydaná dne 8.12.2017.
 
-Vývoj systému začal roku 2002 Garym Shermanem, ještě pod názvem \textit {Quantum GIS}(toto označení zůstalo až do verze 2.0). V roce 2007 se projekt stal součástí Open Source Geospatial Foundation (\zk{OSGeo}). \cite{qgis_official, qgis_wiki_en, qgis_wiki_cz}
+Vývoj systému začal roku 2002 Garym Shermanem, ještě pod názvem
+\textit {Quantum GIS}(toto označení zůstalo až do verze 2.0). V roce
+2007 se projekt stal součástí Open Source Geospatial Foundation
+(\zk{OSGeo}). \cite{qgis_official, qgis_wiki_en, qgis_wiki_cz}
  
 %zdroj: https://www.qgis.org/en/site/, https://cs.wikipedia.org/wiki/QGIS, https://en.wikipedia.org/wiki/QGIS
 %obrazek: https://euipo.europa.eu/copla/image/CJ4JX4FZVCC523YA2TMALSKFLFPOWZHPVHYMP5QREVP2BOXHB3PCM7RCOZR6TEIMWNCQDAB6N25VA
@@ -43,13 +79,36 @@ Vývoj systému začal roku 2002 Garym Shermanem, ještě pod názvem \textit {Q
       \label{fig:qgis_vfk_plugin}
   \end{figure}
 
-Jde o zásuvný modul(anglicky plugin) pro geografický informační systém QGIS, který umožňuje práci s daty z českého katastru nemovitostí. Zásuvný modul pracuje s úplnými daty v takzvaném novém výměnném formátu katastru, který je označovaný \zk{VFK} nebo \zk{NVF}. Data ze souboru jsou čtena pomocí knihovny \zk{GDAL}. Plugin umožňuje vyhledávání a zobrazování informací při práci s daty katastru nemovitostí. Ovládání je uživatelsky přívětivé a známé vzhledem k podobnému rozhraní jako je u webových aplikací.
+Jde o zásuvný modul(anglicky plugin) pro geografický informační systém
+QGIS, který umožňuje práci s daty z českého katastru
+nemovitostí. Zásuvný modul pracuje s úplnými daty v takzvaném novém
+výměnném formátu katastru, který je označovaný \zk{VFK} nebo
+\zk{NVF}. Data ze souboru jsou čtena pomocí knihovny \zk{GDAL}. Plugin
+umožňuje vyhledávání a zobrazování informací při práci s daty katastru
+nemovitostí. Ovládání je uživatelsky přívětivé a známé vzhledem k
+podobnému rozhraní jako je u webových aplikací.
 
-V nahraných datech je nyní možné vyhledávat: parcely, budovy, jednotky a oprávněné osoby. Prohlížeč dat umožňuje zobrazit list vlastnictví a další výpisy informací: o parcele, o budově, o jednotce a o oprávněné osobě. Dále prohlížeč umožňuje zobrazení aktuálního stavu nemovitosti na stránkách Nahlížení do katastru nemovitostí a export výpisů do formátů HTML a zdrojového kódu LaTeXu(možnost vytvoření PDF a PS\footnote{Programovací jazyk PostScript vyvinutý ke grafickému popisu tisknutelných dokumentů, výhodou je nezávislost na zařízení, ze kterého se tiskne, podobně jako formát PDF.\cite{PostScript}})
+V nahraných datech je nyní možné vyhledávat: parcely, budovy, jednotky
+a oprávněné osoby. Prohlížeč dat umožňuje zobrazit list vlastnictví a
+další výpisy informací: o parcele, o budově, o jednotce a o oprávněné
+osobě. Dále prohlížeč umožňuje zobrazení aktuálního stavu nemovitosti
+na stránkách Nahlížení do katastru nemovitostí a export výpisů do
+formátů HTML a zdrojového kódu LaTeXu(možnost vytvoření PDF a
+PS\footnote{Programovací jazyk PostScript vyvinutý ke grafickému
+  popisu tisknutelných dokumentů, výhodou je nezávislost na zařízení,
+  ze kterého se tiskne, podobně jako formát PDF.\cite{PostScript}})
 
-Zdrojové texty zásuvného modulu je možné stáhnout z \href{https://github.com/ctu-geoforall-lab/qgis-vfk-plugin}{Git repozitáře}. Zdrojové kódy jsou šířeny pod licencí \href{https://raw.githubusercontent.com/ctu-osgeorel/qgis-vfk-plugin/master/LICENSE}{GNU GPL}.
+Zdrojové texty zásuvného modulu je možné stáhnout z
+\href{https://github.com/ctu-geoforall-lab/qgis-vfk-plugin}{Git
+  repozitáře}. Zdrojové kódy jsou šířeny pod licencí
+\href{https://raw.githubusercontent.com/ctu-osgeorel/qgis-vfk-plugin/master/LICENSE}{GNU
+  GPL}.
 
-První prototyp(verze 1.x) byl napsán v jazyce C++ a vyvinut studenty oboru Geoinformatika Annou Kratochvílovou a Václavem Petrášem na FSv ČVUT v Praze v roce 2012. Druhá verze 2.x byla vyvíjena v letech 2015 a 2016 studentem stejného oboru Štěpánem Bambulou a zásuvný modul byl přepsán do jazyka Python. \citep{vfk_qgis_plugin}
+První prototyp(verze 1.x) byl napsán v jazyce C++ a vyvinut studenty
+oboru Geoinformatika Annou Kratochvílovou a Václavem Petrášem na FSv
+ČVUT v Praze v roce 2012. Druhá verze 2.x byla vyvíjena v letech 2015
+a 2016 studentem stejného oboru Štěpánem Bambulou a zásuvný modul byl
+přepsán do jazyka Python. \citep{vfk_qgis_plugin}
 %http://freegis.fsv.cvut.cz/gwiki/VFK_/_QGIS_plugin
 %https://cs.wikipedia.org/wiki/PostScript
  
@@ -63,9 +122,21 @@ První prototyp(verze 1.x) byl napsán v jazyce C++ a vyvinut studenty oboru Geo
       \label{fig:gdal}
   \end{figure}
   
-Geospatial Data Abstraction Library(GDAL) je knihovna určená pro čtení a zápis vektorových a rastrových formátů geodat. Jde o open source vyvíjený pod licencí X/MIT a jako součást projektu Open Source Geospatial Foundation (\zk{OSGeo}). Samotná knihovna je reprezentována jedním abstraktním modelem pro rastrová data a jedním pro vektorová data. Dále knihovna nabízí užitečné nástroje pro příkazovou řádku, které slouží ke konverzi a zpracování dat. Od verze GDAL 2.0 je součástí knihovny GDAL také knihovna OGR, která zajišťuje funkcionalitu jednoduchých prvků vektorových dat.
+Geospatial Data Abstraction Library(GDAL) je knihovna určená pro čtení
+a zápis vektorových a rastrových formátů geodat. Jde o open source
+vyvíjený pod licencí X/MIT a jako součást projektu Open Source
+Geospatial Foundation (\zk{OSGeo}). Samotná knihovna je reprezentována
+jedním abstraktním modelem pro rastrová data a jedním pro vektorová
+data. Dále knihovna nabízí užitečné nástroje pro příkazovou řádku,
+které slouží ke konverzi a zpracování dat. Od verze GDAL 2.0 je
+součástí knihovny GDAL také knihovna OGR, která zajišťuje
+funkcionalitu jednoduchých prvků vektorových dat.
 
-Nejdříve byla knihovna vyvíjena Frankem Warmerdamem, od verze 1.3.2 došlo k převedení na GDAL/OGR Project Management Committee, který je součástí \zk{OSGeo}. Knihovna je díky velké funkcionalitě často využívána v komerční i nekomerční sféře a proto patří v \zk{GIS} mezi hlavní volně dostupné softwary. \cite{gdal, gdal_wiki}
+Nejdříve byla knihovna vyvíjena Frankem Warmerdamem, od verze 1.3.2
+došlo k převedení na GDAL/OGR Project Management Committee, který je
+součástí \zk{OSGeo}. Knihovna je díky velké funkcionalitě často
+využívána v komerční i nekomerční sféře a proto patří v \zk{GIS} mezi
+hlavní volně dostupné softwary. \cite{gdal, gdal_wiki}
 %obrazek: https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/GDALLogoColor.svg/572px-GDALLogoColor.svg.png
 %zdroje: http://www.gdal.org/, https://cs.wikipedia.org/wiki/GDAL
 
@@ -79,7 +150,12 @@ Nejdříve byla knihovna vyvíjena Frankem Warmerdamem, od verze 1.3.2 došlo k 
       \label{fig:qt}
   \end{figure}
   
-Qt je multiplatformní aplikační rámec(framework\footnote{Softwarová struktura, která slouží jako podpora při vývoji dalších nových softwarů}), který je určen pro vývoj aplikačního softwaru. Ten může snadno fungovat na různých platformách s žádnými nebo jen minimálními změnami v kódu. Qt je aktuálně vyvíjen společností \textit{The Qt Company} a \textit{Qt Project}.\cite{qt_wiki, qt}
+Qt je multiplatformní aplikační rámec(framework\footnote{Softwarová
+  struktura, která slouží jako podpora při vývoji dalších nových
+  softwarů}), který je určen pro vývoj aplikačního softwaru. Ten může
+snadno fungovat na různých platformách s žádnými nebo jen minimálními
+změnami v kódu. Qt je aktuálně vyvíjen společností \textit{The Qt
+  Company} a \textit{Qt Project}.\cite{qt_wiki, qt}
 
 %zdroj: https://en.wikipedia.org/wiki/Qt_(software)
 %obrazek: https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Qt_logo_2016.svg/578px-Qt_logo_2016.svg.png
