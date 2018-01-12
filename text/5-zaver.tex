@@ -1,24 +1,23 @@
 \chapter{Závěr}
 \label{5-zaver}
 %Shrnutí cíle práce
-Cílem mojí bakalářské práce bylo vytvoření nové knihovny psané v jazyce Python, která měla rozšířit funkcionalitu již existujícího zásuvného modulu pro aplikaci QGIS usnadňujícího práci s českými katastrálními daty ve formátu \zk{VFK} o načítání neúplných dat výměnného formátu katastru nemovitostí a o sestavení bloků parcel a budov z načtených dat.
+Cílem mojí bakalářské práce bylo vytvoření nové knihovny psané v jazyce Python, která měla rozšířit funkcionalitu již existujícího zásuvného modulu pro aplikaci QGIS usnadňujícího práci s českými katastrálními daty ve formátu \zk{VFK} o načítání neúplných veřejně dostupných dat výměnného formátu katastru nemovitostí a o sestavení bloků parcel a budov z načtených dat.
 
 %Upřesněný výsledek
-Podařilo se vytvořit novou knihovnu, která rozšiřuje zásuvný modul a umožňuje načítání úplných i neúplných dat výměnného formátu katastru nemovitostí. Knihovna dále sestavuje z neúplných dat bloky parcel a budov a ukládá je do databáze, která vznikne při načtení dat \zk{VFK} Driverem knihovny GDAL.
+Podařilo se vytvořit novou knihovnu, která rozšiřuje zásuvný modul. Rozšíření vzniklou knihovnou umožňuje nově načítání i neúplných dat výměnného formátu katastru nemovitostí. Knihovna dále sestavuje z neúplných dat bloky parcel a budov a ukládá je do databáze, která vznikne při načtení dat VFK Driverem[\ref{subsec:gdal_vfk}] knihovny GDAL.
 
 %Komplikace
-Při vytváření knihovny se objevilo pár komplikací, které tvorbu lehce zpomalily. Starší verze knihovny GDAL, ze které byl používán VFK Driver, nesestavovala geometrii automaticky přímo při načítání dat, ale až po provedení dotazu na konkrétní geometrii. Dále VFK Driver do vzniklé databáze po načtení dat nepřidával tabulky s geometrií a souřadnicovým systémem, tudíž databáze nebyla prostorová a SQL driver nedokázal rozeznat datové bloky. Tabulky byly do databáze tedy vloženy a SQL Driver poté dokázal bloky přečíst. V nejnovější verzi knihovny jsou oba nedostatky odstraněny. Rozšíření zásuvného modulu bylo vyvíjeno na dvou operačních systémech -- Linux a Windows. Windows se několikrát ukázal jako nevhodný operační systém pro vývoj. Největší komplikace způsobilo použití systémových proměnných, které v prostředí Linuxu fungovalo a v prostředí Windows nikoliv. Situaci vyřešilo až alternativní definování proměnné přes příkaz SetConfigOption().
+Při vytváření knihovny se objevily komplikace, které tvorbu práce zpomalily. Verze knihovny GDAL 2.1.3, ze které byl používán VFK Driver[\ref{subsec:gdal_vfk}], nesestavuje geometrii automaticky přímo při načítání dat, ale až po provedení dotazu na konkrétní geometrii. Dále VFK Driver do vzniklé databáze po načtení dat nepřidává tabulky s geometrií a souřadnicovým systémem, tudíž vzniklá databáze není prostorová a SQL driver nedokáže rozeznat datové bloky. Tabulky byly v databázi vytvořeny a SQL Driver poté dokázal datové bloky přečíst. V nejnovější verzi knihovny GDAL jsou oba nedostatky odstraněny. Rozšíření zásuvného modulu bylo vyvíjeno na dvou operačních systémech -- Linux a Windows. Windows se několikrát ukázal jako nevhodný operační systém pro vývoj. Velkou komplikaci způsobilo použití systémových proměnných, které v prostředí Linuxu fungovalo a v prostředí Windows nikoliv. Situaci vyřešilo až alternativní definování proměnné přes příkaz SetConfigOption().
 
 %Výsledek
-Výsledkem bakalářské práce je rozšířený zásuvný modul pro práci s daty katastru nemovitostí ve formátu \zk{VFK} pro volně dostupný geografický informační systém QGIS. Přidané rozšíření umožňuje načít i neúplná data ve formátu \zk{VFK} a sestaví bloky parcel a budov, které jsou v mapovém okně systému QGIS vizualizovány.
+Výsledkem bakalářské práce je rozšířený zásuvný modul pro práci s daty katastru nemovitostí ve formátu \zk{VFK} pro volně dostupný geografický informační systém QGIS. Přidané rozšíření umožňuje načít nejen úplná, ale i neúplná data ve formátu \zk{VFK} a sestaví bloky parcel a budov, které jsou v mapovém okně systému QGIS vizualizovány včetně parcelních čísel.
 
 %Další vývoj
-Funkčnost knihovny byla testována na datech z katastrálního území Abertamy, které obsahuje 1680 parcel a 470 budov. Velikost \zk{VFK} souboru je 6,7 MB. U objemnějších dat trvá sestavování geometrie výrazně déle. Sestavování geometrií by se dalo jistě zrychlit.
+Funkčnost knihovny byla testována na datech z katastrálního území Abertamy, které obsahuje 1680 parcel a 470 budov. Velikost \zk{VFK} souboru je 6,7 MB. U objemnějších dat trvá sestavování geometrie výrazně déle. Sestavování geometrií by se dalo zrychlit, kdyby sestavování geometrie hranic parcel a budov probíhalo přímo v prostředí VFK Driveru. %%LK:Je to pravda? Nejsem si jistý 
 
-!\textbf{Kde budou zdrojové kódy ke stažení!}
+Tato práce svým obsahem podrobně dokumentuje funkčnost a způsob vzniku nově vytvořené knihovny. V příloha práce jsou informace o knihovně ještě rozšířeny o diagram popisující princip sestavení hranic parcel[\ref{fig:logika_geometrie}]. Je ukázáno krok za krokem jak načítat do zásuvného modulu data[\ref{sec:nacteni_dat_ukazka}] a jak si správně stáhnout veřejně poskytovaná neúplná data výměnného formátu katastru[\ref{sec:stazeni_dat_ukazka}], které jsou zdrojem pro nové rozšíření.
 
-%Naplnění očekávání
-Práce naplnila moje očekávání a výsledek mě samotného až překvapil. Ze začátku jsem si myslel, že s orientačním během nebude mít práce vůbec nic společného, ale nakonec jsem našel alespoň malou souvislost. Geometrie parcel a budov, kterou lze díky knihovně sestavit pro jednotlivá katastrální území nebo pracoviště, by se nejspíš dala využít jako podklad pro vytváření městských map pro orientační běh.
+\textbf{!Kde budou zdrojové kódy ke stažení!}
 
 %Jaké problémy se objevily-operační systémy, jak se naplnila očekávání.
 %Shrnout cíl práce a popsat výsledek-co knihovna/zásuvný modul nyní umí.
