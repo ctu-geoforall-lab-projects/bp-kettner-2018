@@ -1,7 +1,7 @@
 \chapter{Úvod}
 \label{1-uvod}
 %Úvod úvodu
-Tato bakalářská práce má za cíl rozšíření již existujícího zásuvného modulu programu QGIS, který umožňuje uživatelům práci s českými katastrálními daty výměnného formátu katastru. V současné době zásuvný modul načítá pouze úplná a zpoplatněná data, ve kterých je možné vyhledávat a prohlížet vybrané parcely a budovy. Dále aktuální verze zásuvného modulu nabízí zpracování vět změnových souborů a nahlížení do katastru nemovitostí přes internetovou službu Nahlížení do katastru nemovitostí poskytovanou Českým úřadem zeměměřickým a katastrálním .
+Tato bakalářská práce má za cíl rozšíření již existujícího zásuvného modulu programu QGIS, který umožňuje uživatelům práci s českými katastrálními daty výměnného formátu katastru. V současné době zásuvný modul načítá pouze úplná a zpoplatněná data, ve kterých je možné vyhledávat a prohlížet vybrané parcely a budovy. Aktuální verze zásuvného modulu dále nabízí zpracování vět změnových souborů a nahlížení do katastru nemovitostí přes internetovou službu poskytovanou Českým úřadem zeměměřickým a katastrálním .
 %% ML: prvni veta (vybrat poradne) je naprosto nevhodna, jde o
 %% vedeckou praci, nejste v hospode ;-), nutne prepsat ML: cely prvni
 %% odstavec zni kostrbate, text se Vam rozpada po stylisticke i
@@ -27,7 +27,7 @@ Tato bakalářská práce má za cíl rozšíření již existujícího zásuvn�
 %% LK: odstavec odstranen
 
 %Návaznost práce
-Rozšiřovaný zásuvný modul \textit{VFK Plugin} vznikl v rámci diplomové práce Bc. Štěpána Bambuly \textit{Rozšíření nástroje pro práci s katastrálními daty v programu QGIS}.  Práce pana Bambuly navazovala na již existující nástroj a rozšířila ho o zpracování a vizualizaci datových vět změnových souborů \zk{VFK}. Dále nástroj přepsal do jazyka Python, aby usnadnil distribuci zásuvného modulu v prostředí geografického informačního systému QGIS.
+Rozšiřovaný zásuvný modul \textit{VFK Plugin} vznikl v rámci diplomové práce Bc. Štěpána Bambuly \textit{Rozšíření nástroje pro práci s katastrálními daty v programu QGIS}\footnote{https://github.com/ctu-geoforall-lab-projects/dp-bambula-2016}. Práce pana Bambuly navazovala na již existující nástroj a rozšířila ho o zpracování a vizualizaci datových vět změnových souborů \zk{VFK}. Součástí práce bylo i přepsání kódu nástroje do jazyka Python, aby usnadnil distribuci zásuvného modulu v prostředí geografického informačního systému QGIS.
 
 %Cíl práce
 %% ML: zvazte prepsani celeho textu do pritomneho casu (Cilem teto
@@ -43,7 +43,7 @@ Rozšiřovaný zásuvný modul \textit{VFK Plugin} vznikl v rámci diplomové pr
 %% ML: nemluvil bych o 'geometrickych blocich' ale datovych blocich s
 %% geometrickou sloznou popisu
 %% LK:ano, souhlasim
-Cílem bakalářské práce je vytvoření nového rozšíření zásuvného modulu {VFK Plugin} v podobě knihovny, která nabídne uživatelům možnost načítat i neúplná, veřejně dostupná data výměnného formátu katastru poskytovaná bezúplatně Českým úřadem zeměměřickým a katastrálním.  To znamená sestavit dva, pro vizualizaci nejdůležitější, datové bloky s geometrickou složkou popisu PAR (parcely) a BUD (budovy), které nejsou součástí neúplných dat. Přesto je možné datové bloky z obsažených informací vytvořit. Vzniklou knihovnu začlením do rozšiřovaného zásuvného modulu se snahou zachovat pokud možno původní funkčnost. Z neúplných dat proto využiji maximum informací, aby zůstala funkční co největší část nástrojů modulu.
+Cílem bakalářské práce je vytvoření nového rozšíření zásuvného modulu \textit{VFK Plugin} v podobě knihovny, která nabídne uživatelům možnost načítat i neúplná veřejně dostupná data výměnného formátu katastru poskytovaná bezplatně Českým úřadem zeměměřickým a katastrálním.  To znamená sestavit dva, pro vizualizaci nejdůležitější, datové bloky s geometrickou složkou popisu PAR (parcely) a BUD (budovy). Tyto datové bloky nejsou součástí neúplných dat, nicméně přesto je možná je z obsažených informací vytvořit. Vzniklou knihovnu začlením do rozšiřovaného zásuvného modulu se snahou zachovat pokud možno jeho původní funkčnost. Za tímto účelem maximálně vyžiji informací neúplných dat.
 
 %Struktura práce
 %% ML: po presani do pritomneho casu, muzete pridat odkazy na
@@ -53,15 +53,15 @@ Samotná práce je logicky uspořádána do dvou celků. Prvním je
 teoretická část zabývající se představením informačního systému
 katastru nemovitostí(\zk{ISKN})[\ref{2-teorie}] a jeho historie. Dále je rozebrána
 základní struktura výměnného formátu katastru[\ref{sec:struktura_vfk}], ve kterém
-jsou data poskytována. Přidáno porovnání úplného a neúplného formátu[\ref{subsec:neuplna_data}]
-doplněné o přehled datových bloků, pro které je nutné sestavit
-geometrii, aby šlo bloky PAR a BUD knihovnou také sestavit[\ref{sec:sestaveni_geometrie}]. Představím
+jsou data poskytována a přidáno porovnání úplného a neúplného formátu[\ref{subsec:neuplna_data}].
+Porovnání je doplněné o přehled datových bloků, pro které je nutné sestavit
+geometrii, aby šlo bloky PAR a BUD knihovnou také sestavit[\ref{sec:sestaveni_geometrie}]. V závěru teoretické části představuji
 použitou technologii, kam patří například programovací jazyk Python[\ref{sec:python}] a
 knihovna GDAL[\ref{sec:gdal}].
 
 Druhá část už je zaměřená čistě na praktickou stránku
-práce. Podrobně představím funkcionalitu jednotlivých tříd a členských
+práce. Zde je podrobně představena funkcionalita jednotlivých tříd a členských
 metod[\ref{sec:popis_trid}] z nově vzniklé knihovny a také funkčnost knihovny
-samotné[\ref{sec:funknost_knihovny}]. Součástí praktické části je dále integrace vzniklé knihovny do
-již existujícího zásuvného modulu,která je také představena a
-doplněna o ukázky načítání dat[\ref{sec:integrace_knihovny}].
+samotné[\ref{sec:funknost_knihovny}]. Nedílnou součástí praktické části je jak samotná integrace vzniklé knihovny do
+již existujícího zásuvného modulu, tak její podrobné představení
+doplněné o ukázky načítání dat[\ref{sec:integrace_knihovny}].
