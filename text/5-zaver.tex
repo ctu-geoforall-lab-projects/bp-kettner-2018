@@ -1,6 +1,9 @@
 \chapter{Závěr}
 \label{5-zaver}
 %Shrnutí cíle práce
+
+%% ML: vyskrtnete ``moji'', jasne veci neni treba opakovat
+%% ML: odstavec - jedno ohromne souveti, prepiste...
 Cílem mojí bakalářské práce bylo vytvoření nové knihovny psané v
 jazyce Python, která měla rozšířit funkcionalitu již existujícího
 zásuvného modulu pro aplikaci QGIS usnadňujícího práci s českými
@@ -10,23 +13,33 @@ bloků parcel a budov z načtených dat.
 
 %Upřesněný výsledek
 Podařilo se vytvořit novou knihovnu, která rozšiřuje zásuvný
+%% ML: druha veta opakokuje to co jiz bylo receno, preformulujte
+%% ML: neuplne -> verejne dostupne (tj. data bez bloku NEMO - pokud si dobre vzpominam)
 modul. Rozšíření vzniklou knihovnou umožňuje nově načítání i neúplných
 dat výměnného formátu katastru nemovitostí. Knihovna dále sestavuje z
+%% ML: proc je to nutne? -> vizualizace dat v pluginu, nevim, zda to
+%% mate nekde jasne receno, minimalne, zde by to melo byt ucineno
 neúplných dat bloky parcel a budov a ukládá je do databáze, která
-vznikne při načtení dat VFK Driverem[\ref{subsec:gdal_vfk}] knihovny
-GDAL.
+vznikne při načtení dat VFK driverem (viz kap. \ref{subsec:gdal_vfk})
+knihovny GDAL.
 
 %Komplikace
 Při vytváření knihovny se objevily komplikace, které tvorbu práce
-zpomalily. Verze knihovny GDAL 2.1.3, ze které byl používán VFK
-Driver[\ref{subsec:gdal_vfk}], nesestavuje geometrii automaticky přímo
-při načítání dat, ale až po provedení dotazu na konkrétní
+zpomalily. Verze knihovny GDAL 2.1.3 nesestavuje geometrii automaticky
+přímo při načítání dat, ale až po provedení dotazu na konkrétní
 geometrii. Dále VFK Driver do vzniklé databáze po načtení dat
 nepřidává tabulky s geometrií a souřadnicovým systémem, tudíž vzniklá
+%% ML: SQLite driver
 databáze není prostorová a SQL driver nedokáže rozeznat datové
-bloky. Tabulky byly v databázi vytvořeny a SQL Driver poté dokázal
+%% ML: hlavne typ geometrie (bloky jako takove ano)
+bloky. Tabulky byly v databázi vytvořeny a SQL driver poté dokázal
 datové bloky přečíst. V nejnovější verzi knihovny GDAL jsou oba
 nedostatky odstraněny. Rozšíření zásuvného modulu bylo vyvíjeno na
+%% ML: veta o windows a vyvoji je zcela subjektivni, pokud umite
+%% pouzivat vyvojove prostredky pod Windows, je to asi bajecny system
+%% ;-)
+%% ML: jde hlavne o to, ze byl testovan jak pod Linuxem a Windows, to
+%% je podstatne
 dvou operačních systémech -- Linux a Windows. Windows se několikrát
 ukázal jako nevhodný operační systém pro vývoj. Velkou komplikaci
 způsobilo použití systémových proměnných, které v prostředí Linuxu
@@ -45,9 +58,11 @@ včetně parcelních čísel.
 Funkčnost knihovny byla testována na datech z katastrálního území
 Abertamy, které obsahuje 1680 parcel a 470 budov. Velikost \zk{VFK}
 souboru je 6,7 MB. U objemnějších dat trvá sestavování geometrie
+% ML: ve vete mate dvakrat sestaveni geometrie
 výrazně déle. Sestavování geometrií by se dalo zrychlit, kdyby
 sestavování geometrie hranic parcel a budov probíhalo přímo v
-prostředí VFK Driveru.
+%% ML: proc? - GDAL ovladace jsou napsany v programovacim jazyku C++, ale ma to vice duvodu.
+prostředí VFK driveru.
 
 %%LK:Je
                                                                                                                                                                                                                                                                                                                                                            %%to
@@ -58,17 +73,23 @@ prostředí VFK Driveru.
 
 
 Tato práce svým obsahem podrobně dokumentuje funkčnost a způsob vzniku
-nově vytvořené knihovny. V příloha práce jsou informace o knihovně
-ještě rozšířeny o diagram popisující princip sestavení hranic
-parcel[\ref{fig:logika_geometrie}]. Je ukázáno krok za krokem jak
-načítat do zásuvného modulu data[\ref{sec:nacteni_dat_ukazka}] a jak
+%% ML: a jeji integrace do pluginu
+nově vytvořené knihovny. V příloze jsou informace o knihovně ještě
+rozšířeny o diagram popisující princip sestavení hranic
+%% ML: posledni veta je prilis dlouha, zkuste preformulovat a zlepsit
+%% stylistickou uroven
+parcel \ref{fig:logika_geometrie}. Je ukázáno krok za krokem jak
+načítat do zásuvného modulu data (\ref{sec:nacteni_dat_ukazka}) a jak
 si správně stáhnout veřejně poskytovaná neúplná data výměnného formátu
-katastru[\ref{sec:stazeni_dat_ukazka}], které jsou zdrojem pro nové
+katastru (\ref{sec:stazeni_dat_ukazka}), které jsou zdrojem pro nové
 rozšíření.
 
+%% ML: ve vasem gitu bakalarky (src)
 \textbf{!Kde budou zdrojové kódy ke stažení!}
 
 %Jaké problémy se objevily-operační systémy, jak se naplnila očekávání.
 %Shrnout cíl práce a popsat výsledek-co knihovna/zásuvný modul nyní umí.
 %Možnost dalšího vylepšení.
+%% ML: doufam, ze bude kod zaclenen do repositare pluginu, pote jiz
+%% bude distribuce standardni
 (Distribuce zásuvného modulu)?
