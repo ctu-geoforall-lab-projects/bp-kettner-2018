@@ -4,15 +4,21 @@ Tato kapitola je věnována informacím o nové knihovně
 %% ML: v textu Vam chybi obecne provazanost (napr. zde chybi odkaz na
 %% kapitolu QGIS VFK Plugin)
 %% LK: pokusim se vylepsit
-\textbf{publicvfk} rozšiřující funkčnost \textit{QGIS VFK Pluginu}[\ref{sec:qgis_plugin}] a její
+%% ML: OK
+%% ML: v odstavci mate pouzito v kazde vete slovo "funkcnost", zkuste
+%% mirne prepasat
+\textbf{publicvfk} rozšiřující funkčnost \textit{QGIS VFK Pluginu}
+(kap. \ref{sec:qgis_plugin}) a její
 %% ML: ve vete mate dvakrat souslovi ``zasuvny modul'', zkuste prepsat
-integraci do zásuvného modulu[\ref{sec:integrace_knihovny}]. Je zde popsána funkčnost knihovny a uvedeny
+integraci do zásuvného modulu (kap. \ref{sec:integrace_knihovny}). Je
+zde popsána funkčnost knihovny a uvedeny
 %% ML: druhou cast vety prepiste, zni sroubovane. - napr. knihovny
 %% jeji vstupy a vystupy.
 %% LK: prepsano
-její vstupy a výstupy. Dále je představena ukázka
-funkčnosti na testovacích datech[\ref{subsec:funkcnost_knihovny}] a popsány podrobnosti o způsobu
-integrace do výše zmíněného zásuvného modulu \textit{QGIS VFK
+její vstupy a výstupy. Dále je představena ukázka funkčnosti na
+testovacích datech (viz kap. \ref{subsec:funkcnost_knihovny}) a
+popsány podrobnosti o způsobu integrace do výše zmíněného zásuvného
+modulu \textit{QGIS VFK
  %% ML: tvorbu ceho? textu?
  %% LK: ano
   Plugin}. Pro tvorbu textu je čerpáno ze zdrojů \cite{cookbook,
@@ -20,28 +26,36 @@ integrace do výše zmíněného zásuvného modulu \textit{QGIS VFK
 
 \section{Funkčnost knihovny}
 \label{sec:funknost_knihovny}
-Knihovna načítá pomocí VFK driveru[\ref{subsec:gdal_vfk}] knihovny GDAL [
+Knihovna načítá pomocí VFK driveru (viz kap. \ref{subsec:gdal_vfk})
+knihovny GDAL 
 %% ML: cimz? nejasna veta, zkuste preformulovat
 %% LK. zmeneno
-\ref{sec:gdal}] textový soubor ve formátu \zk{VFK}. Driver při otevření
+%% ML: lepsi, par referenci jsem odstranil (staci, kdyz se v odstavci objevi jednou)
+textový soubor ve formátu \zk{VFK}. Driver při otevření
 %% ML: SQL -> SQLite
 %% LK: opraveno
-souboru vytvoří SQLite\footnote{Relační databázový systém} databázi, do které se uloží načtená data. \zk{VFK} soubor již není
+souboru vytvoří SQLite\footnote{Souborový relační databázový systém} databázi,
+do které se uloží načtená data. \zk{VFK} soubor již není
 %% ML: SQL -> SQLite
 %% LK: opraveno
 dále využíván, knihovna místo toho přistupuje k vytvořené SQLite
-databázi. Důvodem je fakt, že VFK Driver[\ref{subsec:gdal_vfk}] sice čte data také z databáze, ale není schopen načíst později přidané bloky parcel a budov. Bloky chybí v podkladovém \zk{VFK} souboru, na základě kterého VFK driver pozná datové vrstvy v databázi. Následně je zkontrolována verze knihovny
-GDAL[\ref{sec:gdal}]. Pokud je nižší než 2.2, tak musí být proveden
+databázi. Důvodem je fakt, že VFK driver sice čte data také z
+databáze, ale není schopen načíst později přidané bloky parcel a
+budov. Bloky chybí v podkladovém \zk{VFK} souboru, na základě kterého
+VFK driver pozná datové vrstvy v databázi. Následně je zkontrolována
+verze knihovny GDAL. Pokud je nižší než 2.2, tak musí být proveden
 %% ML: prikaz nemate vysvetlen, co dela? - napr. v poznamce pod carou
 %% LK: prikaz vysvetlen poda carou
-příkaz \verb|self.dsn_vfk.GetLayerByName('HP').GetFeature(1)|\footnote{Výsledkem provedení příkazu je prvek s identifikátorem 1 z datové vrstvy HP(hranice parcel)}, který sestaví geometrie všech datových bloků souvisejících s
-blokem hranic parcel (HP)[\ref{sec:sestaveni_geometrie}].
+příkaz \newline \verb|self.dsn_vfk.GetLayerByName('HP').GetFeature(1)|\footnote{Výsledkem provedení příkazu je prvek s identifikátorem 1 z datové vrstvy HP (hranice parcel)}, který sestaví geometrie všech datových bloků souvisejících s
+blokem hranic parcel (HP) (viz kap. \ref{sec:sestaveni_geometrie}).
 
 %% ML: nacitani dat z databaze (v GDAL 2.2 je to opet jiz vyreseno)
 %% LK: doplneno
-Pro správné fungování načítání dat z databáze(pokud je verze knihovny GDAL[\ref{sec:gdal}] nižší než 2.2) je nezbytné vložit do databáze
-tabulku geometrie (\verb|geometry columns|) a tabulku souřadnicového
-systému (\verb|spatial_ref_sys|). Dojde tak k vytvoření prostorové
+%% ML: OK
+Pro správné fungování načítání dat z databáze (pokud je verze knihovny
+GDAL nižší než 2.2) je nezbytné vložit do databáze tabulku geometrie
+(\verb|geometry columns|) a tabulku souřadnicového systému
+(\verb|spatial_ref_sys|). Dojde tak k vytvoření prostorové
 databáze\footnote{Databáze ukládající prostorovou složku dat.}. SQLite
 %% ML: bez techto takulek?
 %% LK: doplneno
@@ -50,12 +64,14 @@ databáze\footnote{Databáze ukládající prostorovou složku dat.}. SQLite
 driver knihovny GDAL těchto bez tabulek není schopen rozeznat typ prvku. U novější
 %% ML: GDAL 2.2
 %% LK: pripsano
+%% ML: OK
 verze knihovny GDAL 2.2 dochází k vytvoření tabulek automaticky.
 
 %% ML: nemate uplne vysvetleno, proc je nacitani nutne provadet pomoci
 %% SQLite driveru. VFK driver totiz take cte data z databaze (ale
 %% neuvidi bloky PAR a BUD jelikoz chybi v podkladovem VFK souboru)
 %% LK: vysvetleni pridano na zacatek
+%% ML: OK
 
 Po vytvoření prostorové databáze následují postupně kroky, během
 kterých vznikají data v připojené databázi:
@@ -77,6 +93,7 @@ identifikátorů všech parcel. Pro každou parcelu jsou následně nalezeny
 příslušné hranice. Samotná geometrie parcely je sestavena 
 %% ML: veta nedava smysl, prepiste
 %% LK: prepsano
+%% ML: OK
 postupným spojováním navazujících hranici příslušné parcely. Tento proces se opakuje pro každou parcelu. Následující pseudokód(\ref{alg:sestaveni_parcely}) popisuje
 proces sestavení a uložení geometrie parcel. Na řádku 10 je volána
 metoda \verb|build_bound()|(viz kap. \ref{subsec:sestaveni_geometrie}), která
@@ -156,6 +173,7 @@ dat, ve kterých jsou uložena vlastní data katastru nemovitostí.
 \label{subsec:funkcnost_knihovny}
 %% ML: prvni veta nedava smysl, databaze neni prostorova (chybi geometry_columns)
 %% LK: ano to jsem myslel, takhle to dava smysl?
+%% ML: v poradku
 %% ML: take nekde chybi prikaz, ktery by ukazoval jak tato DB vznikla (ogrinfo file.vfk)
 %% LK: doplneno do teorie do podkapitoly Knihovna GDAL
 Jelikož databáze není prostorová, a tím pádem SQLite driver není schopen
@@ -197,8 +215,10 @@ jejich členské metody a popsáno, co která třída a metoda obstarává.
 Tato třída dědí vlastnosti třídy Exception a je volána v případě, že
 %% ML: zadne jine pripadne chybove stavy neexistuji?
 %% LK: jsou, doplnil jsem
-nastane chyba. To se může stát není-li připojen \zk{VFK},
-databáze nebo pokud zdrojová data obsahují prázdnou vrstvu a to u metody \verb|filter_layer()|.
+%% OK,
+nastane chyba. To se může stát není-li připojen \zk{VFK}, databáze
+nebo pokud zdrojová data obsahují prázdnou vrstvu, a to u metody
+\verb|filter_layer()|.
 \subsection{VFKBuilder}
 \label{subsec:sestaveni_geometrie}
 Mateřská třída, která obsahuje společné metody tříd
@@ -209,26 +229,30 @@ geometrie parcel i budov.
 
 %% ML: preteceni textu v radku
 %% LK: co s tim?
-V konstruktoru třídy dochází k vytvoření tabulky geometrie
-(\verb|geometry columns|) a tabulky souřadnicového systému
-(\verb|spatial_ref_sys|), bez kterých by nebylo možné číst geometrii z
-databáze. V případě nepřipojeného zdroje dat - \zk{VFK} souboru je
+%% ML: text jsem mirne upravil, aby si lepe sedl
+  V konstruktoru třídy dochází k vytvoření metadatové tabulky geometrie 
+  (\verb|geometry_columns|) a souřadnicového systému
+  (\verb|spatial_ref_sys|), bez kterých by nebylo možné číst geometrii
+  z databáze. V případě nepřipojeného zdroje dat - \zk{VFK} souboru je
 %% ML: trida neni volana, je vyvolana vyjimka, ktera je obslouzena tridou...
 %% LK: ok
 volána výjimka obsloužená třídou VFKBuilderError a zobrazena chybová hláška.
 \item \verb|build_bound()|
 
-Hlavní metoda, která sestavuje geometrii jednotlivých hranic do polygonu. V
+Hlavní metoda, která sestavuje geometrii jednotlivých hranic do formy polygonu. V
 %% ML: hranice s dirami, nemel jste na mysli polygon?
 %% LK: ano, polygon
 případě polygonu hranice s dírami dojde k vytvoří seznamu s více geometriemi,
 %% ML: nejdelsi ? nejvetsi vymera ?
 %% LK: nejvetsi ohranicijici obdelnik
-ve kterém je nalezena geometrie s největším ohraničujícím obdélníkem a ze zbylých geometrií jsou vytvořeny
-díry. Sestavení probíhá geometrickou cestou. Nejdříve je přidána první
-hranice, poté hranice obsahující koncový bod první hranice a tak
+%% ML: OK
+ve kterém je nalezena geometrie s největším ohraničujícím obdélníkem a
+ze zbylých geometrií jsou vytvořeny díry. Sestavení probíhá
+geometrickou cestou. Nejdříve je přidána první hranice, poté hranice
+obsahující koncový bod první hranice a tak
 %% ML: tady by se hodil odkaz na pseudokod
 %% LK: logiku metody popisuje diagram, odkaz je na konci odstavce
+%% ML: OK
 déle, dokuk není polygon kompletní. Na závěr je otestováno uzavření všech hranic v seznamu
 geometrií (první bod hranice je shodný s posledním bodem hranice). Pro
 názornost principu metody je v příloze vytvořen
@@ -263,9 +287,11 @@ Konstruktor třídy, kde je vytvořena nová tabulka pro budovy -- BUD a~atribut
 
 %% ML: preformulovat, prvni veta je matouci
 %% LK: dobra
-Metoda se stará o sestavení všech geometrií budov. Počet sestavených geometrií je
-možné nastavit parametrem limit. Po sestavení probíhá v transakci
-uložení geo\-metrií a atributů do tabulky BUD v databázi.
+%% ML: lepsi
+  Metoda se stará o sestavení všech geometrií budov. Počet sestavených
+  geometrií je možné nastavit parametrem limit. Po sestavení probíhá
+  v~tran\-sakci uložení geo\-metrií a atributů do tabulky BUD v
+  databázi.
 \end{itemize}
 \subsection{VFKParBuilder}
 Potomek třídy \textbf{VFKBuillder}. Zde dochází k vlastnímu sestavení
@@ -286,6 +312,7 @@ Zde probíhá samotné sestavení geometrií všech parcel. Po sestavení je par
 uložena do databáze včetně příslušných atributů. Metodě je možné nastavit
 %% ML: Zakladne?
 %% LK: metoda stale obsahuje z vyvoje parametr limit, ktery je zakladne nastaven na hodnotu None
+%% ML: lepsi
 kolik parcel má sestavit. Při běžném spuštění dochází k sestavení všech parcel.
 
 \end{itemize}
@@ -294,16 +321,20 @@ kolik parcel má sestavit. Při běžném spuštění dochází k sestavení vš
 
 %% ML: zkuste prvni vetu preformulovat, nezni dobre
 %% LK: upraveno
-Základem integrace knihovny do zásuvného modulu je
-zavolání metod knihovny v souboru \textit{mainApp.py} na správném místě. Je zapotřebí zachovat
+%% ML: mirne jsem jeste upravul
+Základem integrace knihovny do zásuvného modulu je zavolání metod
+knihovny v~souboru \textit{mainApp.py}, a to těsně po načtení
+vstupního VFK souboru. Je zapotřebí zachovat
 %% ML: zpoplatnenych a verejne dostupnych - pripadne upravit i dale v
 %% textu (ani zpoplatnena data nejsou uplna...)
 %% LK: opraveno
-funkcionalitu při otevření zpoplatněných i veřejně dostupných dat. Jsou-li data
-zpoplatněná, funguje zásuvný modul standardně. Pokud jsou však využívána data veřejně dostupná,
+funkcionalitu při otevření zpoplatněných i veřejně dostupných
+dat. Jsou-li data zpoplatněná, funguje zásuvný modul standardně. Pokud
+jsou však využívána data veřejně dostupná,
 %% ML: pouziti trid ? zavolani neni korektni termin
 %% LK: opraveno
-neobsahující bloky PAR a BUD, dojde k jejich sestavení a použití
+%% ML: ok
+neobsahující bloky PAR a BUD, dojde k jejich sestavení a~použití
 třídy z nově integrované knihovny \textbf{publicvfk}.
 
 Nejdříve je knihovna pomocí metody import nahrána. Poté je ve funkci
@@ -322,13 +353,15 @@ třeba zdroj dat uzavřít a předejít tak zdvojenému připojení k \zk{VFK}
 souboru či databázi. Vícenásobné připojení může způsobit chybu. Poté
 %% ML: neobsazenych je kostrbate slovo
 %% LK: opraveno
-následuje samotné sestavení bloků parcel a budov, které nejsou obsaženy. Za
+následuje samotné sestavení bloků parcel a budov, které nejsou v datech obsaženy. Za
 %% ML: odkaz na kapitoly popisujici tridy?
 %% LK: doplnen
-sestavení parcel zodpovídá třída \textit{VFKParBuilder} [\ref{sec:popis_trid}] a o sestavení
+sestavení parcel zodpovídá třída \textit{VFKParBuilder} (viz
+kap. \ref{sec:popis_trid}) a o sestavení
 %% ML: neni to jiz jasne, navic pokud umistite odkaz na popis trid,
 %% tak o to bude cela vec jasnejsi
 %% LK: takhle staci? nebo jste myslel odstranit i jmena obou trid
+%% ML: takto v poradku
 budov třída \textit{VFKBudBuilder}. Nejprve jsou deklarovány objekty dané třídy a následně jsou
 volány metody příslušných tříd pro sestavení geometrií:
 
@@ -376,6 +409,7 @@ Funkčnost knihovny je možné otestovat z příkazové řádky.
 %% ML: Ta veta je zavadejici, k testovani neni pouzit sys modul, pres
 %% sys.argv jste pouze schopen zjisit parametry pri spusteni skriptu
 %% LK: vetu odstranim
+%% ML: OK
  Příkaz pro spuštění se skládá z názvu knihovny a
 \zk{VFK} souboru včetně přípony, oddělených mezerou. Například:
 \textit{python publicvfk.py 600016.vfk} (viz

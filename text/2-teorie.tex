@@ -48,15 +48,18 @@ bloků (viz.~\ref{tab:komb_dat_skup}).
 
 %% ML: budouci cas -> pritomny
 %% LK: opraveno
+%% ML: OL
 Práce je zaměřená na využití bezúplatně poskytovaných dat katastrální
 %% ML: mate nekde vysvetleno, co je ``Neharmonizovana sluzba''
 %% LK: vyreseno poznamkou, je to postacujici vysvetleni?
+%% ML: OK
 mapy z~Neharmonizované služby\footnote{Data poskytovaná touto službou nejsou určená pro sdílení prostorových informací dle \zk{INSPIRE} směrnice vytvořené Evropskou komisí}. Katastrální mapa je ke stažení ve
 formátech \zk{VFK} (aktualizace měsíčně), SHP\footnote{Esri Shapefile je
   formát pro ukládání prostorových dat} (aktualizace týdně) a
 %% ML: kreslici -> CAD (zaroven byste mel mit vysvelenu tuto zkratu v
 %% Seznamu zkratek)
 %% LK: vysvetleno a zkratka doplnena
+%% ML: v poradku
 DGN\footnote{Grafický formát dat určený pro \zk{CAD}
   softwary}(aktualizace denně).
 
@@ -105,11 +108,15 @@ Podpora starého výměnného formátu skončila se vznikem \zk{ISKN},
 protože v něm jsou data popisná a geodetická uložena ve společném
 %% ML: modelu?
 %% LK: modelu, opraveno
+%% ML: OK
 %% ML: otazka: proc to vadilo?
 %% LK: doplneno
-datovém modelu. To neumožňovalo současnou aktualizaci popisných a prostorových dat včetně zachování vzájemné konzistence. Proto byl vytvořen a postupně implementován
-\textit{nový výměnný formát (NVF)}, často označovaný zkratkou \zk{VFK}. Data v novém formátu jsou poskytována ve dvou
-časových režimech:
+%% ML: v poradku
+datovém modelu. To neumožňovalo současnou aktualizaci popisných a
+prostorových dat včetně zachování vzájemné konzistence. Proto byl
+vytvořen a postupně implementován \textit{nový výměnný formát (NVF)},
+často označovaný zkratkou \zk{VFK}. Data v novém formátu jsou
+poskytována ve dvou časových režimech:
 
 \begin{itemize}[leftmargin=50pt]
 \item \textbf{Prvotní data} -- kompletní data pro konkrétní časové období						
@@ -162,6 +169,7 @@ textovém souboru. Pořadí řádků ukázky hlavičky odpovídá
 pořadí jednotlivých informací vyjmenovaných v předchozím odstavci.
 %% ML: navrhuji: neuplnych -> verejne poskytovanych
 %% LK. souhlasim, zni lepe
+%% ML: OK
 \begin{lstlisting}[caption=Ukázka hlavičky veřejně poskytovaných dat, label=lst:hlavicka]
 &HVERZE;"5.1"
 &HVYTVORENO;"03.03.2017 14:37:03"
@@ -177,6 +185,7 @@ pořadí jednotlivých informací vyjmenovaných v předchozím odstavci.
 
 %% ML: bloku obsahuje soubor typicky vice, ne pouze jeden
 %% LK: prepsano
+%% ML: OK
 Po hlavičce následují v textovém souboru \zk{VFK} datové bloky
 výměnného formátu \zk{ISKN}. Každý datový blok počíná uvozovacím řádkem,
 který se skládá ze znaku \verb|&B| (blok výměnného formátu) a zkratky
@@ -190,6 +199,9 @@ ukázka~\ref{lst:datovy_blok}.
 
 %% ML: navrhuji: neuplnych -> verejne poskytovanych
 %% LK: opraveno
+%% ML: v poradku
+%% ML: pokud se nezmeni text, tak vlozte pred ukazku \newpage, takto
+%% je ukazka podivne rozdelena na dve stranky
 {\small
 \begin{lstlisting}[caption=Ukázka datového bloku SOBR (souřadnice obrazu bodů polohopisu v mapě) veřejně poskytovaných dat, label=lst:datovy_blok]
 &BSOBR;ID N30;STAV_DAT N2;KATUZE_KOD N6;CISLO_ZPMZ N5;
@@ -202,10 +214,13 @@ SOURADNICE_X N10.2;KODCHB_KOD N2
 
 %% ML: navrhuji: neuplnych -> verejne poskytovanych
 %% LK: opraveno
+%% ML: OK
 \subsection{Struktura veřejně poskytovaných dat výměnného formátu katastru}
 \label{subsec:neuplna_data}
+
+%% ML: navrhuji zacit veru Data ... (tj. vynechat uplna)
 Úplná data výměnného formátu katastru nemovitostí, která jsou
-zpoplatněna a poskytována přes webovou aplikaci Dálkový přístup,
+zpoplatněna a~poskytována přes webovou aplikaci Dálkový přístup,
 obsahují následujících 12 skupin datových bloků:
 \verb|&HSKUPINA;"NEMO"|; \verb|"JEDN";"BDPA"|; \verb|"VLST";"JPVZ"|;
 \verb|"RIZE";"PKMP"|; \verb|"BPEJ";"GMPL"|;
@@ -216,12 +231,14 @@ obsahují následujících 12 skupin datových bloků:
 Data veřejně poskytovaná obsahují pouze dvě skupiny datových bloků, jak lze vidět v
 ukázce hlavičky veřejně poskytovaných dat~\ref{lst:hlavicka}--řádek 5. Z důvodu
 %% ML: tuto vetu bych vypustil
-nepřítomnosti dalších datových skupin jsou data označována jako
+%% ML: nebo nechte, dava to smysl
+nepřítomnosti dalších datových skupin jsou data označována v textu jako
 neúplná. Obsaženy jsou skupiny bloků PKMP a BPEJ, které v podstatě tvoří
 kompletní katastrální mapu. Popisné informace data neobsahují.
 
 %% ML: navrhuji: neuplnych -> verejne poskytovanych
 %% LK: ok
+%% ML: v poradku
 \begin{table}[h!] %specifikace umisteni objektu-tabulky, ! trvá na umístění h-here
 \begin{center}
 			%\centering
@@ -265,6 +282,7 @@ která je základní mapovací a oceňovací jednotkou zemědělské půdy.
 %% LK: ok
 \subsection{Stažení veřejně poskytovaných dat výměnného formátu katastru}
 %% ML: ve vete se objevuje dvakrat bezuplatne
+%% ML: vypada to, ze bylo opraveno
 Tato bakalářská práce je zaměřená na zpracování volně
 poskytovaných data z~neharmonizovaných služeb mapového serveru
 \zk{ČUZK}, kde jsou veškeré služby poskytovány bezúplatně. Veřejně poskytovaná data \zk{VFK} je
@@ -274,18 +292,21 @@ možné stáhnout na adrese \\
  si může během stahování zvolit podle jakého parametru chce mít vybraná data uspořádána.
  K dispozici jsou dvě možnosti - dle katastrálního území nebo katastrálního
 %% ML: Dalsi veta zni opet divne, prepsat
-pracoviště. Vybrat je možné i různé staří stahovaných dat.
-Podrobná ukázka stažení dat krok za krokem je k dispozici v příloze [\ref{sec:stazeni_dat_ukazka}].
+ pracoviště. Vybrat je možné i různé staří stahovaných dat.  Podrobná
+ ukázka stažení dat krok za krokem je k dispozici
+ v~příloze~\ref{sec:stazeni_dat_ukazka}.
 %% ML: okne?
 %% LK: veta odstranena a radsi jsem pridal do prilohy ukazku stazeni dat,
 %% zda se mi nazornejsi nez slozity popis
+%% ML: v poradku
 %http://freegis.fsv.cvut.cz/gwiki/V%C3%BDm%C4%9Bnn%C3%BD_form%C3%A1t_ISKN
 \subsection{Bloky parcel a budov}
 \label{subsec:bloky_par_bud}
 %% ML: dvakrat ve vete: datove bloky, prepsat
 %% LK: opraveno, zmenen zacatek vety
 Bloky parcel a budov patří do skupiny datových bloků s názvem Nemovitosti
-a kódem NEMO a jsou obsaženy pouze v úplných datech.
+%% ML: uplnych -> zpoplatnenych
+a~kódem NEMO a jsou obsaženy pouze v úplných datech.
 
 Datový blok PARCELY s kódem PAR obsahuje parcely evidované v
 %% ML: sloupcu -> atributu ?
@@ -294,14 +315,16 @@ Datový blok PARCELY s kódem PAR obsahuje parcely evidované v
 %% ML: ve vete se objevuje prilis mnohokrat slovo 'parcela'
 %% ML: okolnich -> sousednich
 %% ML: pokud mate nekde souvisejici diagram, tak chybi odkaz
+%% ML: nevypadl Vam ten diagram, jinak v poradku
 datového bloku HP (hranice parcel) je možné získat seznam sousedních
-parcel pro daná identifikační parcelní čísla. Blok BUDOVY s kódem BUD obsahuje stavby evidované
-v \zk{ISKN}.
+parcel pro daná identifikační parcelní čísla. Blok BUDOVY s kódem BUD
+obsahuje stavby evidované v \zk{ISKN}.
  
 \section{Nástroje pro čtení dat VFK}
 %% ML: Na -> Pro
 %% ML: dat ... poskytovanych ve formatu VFK
 %% LK: opraveno
+%% ML: OK
 Pro čtení dat Informačního systému katastru (\zk{ISKN}) poskytovaných ve formátu \zk{VFK} je k dispozici
 poměrně velké množství prostředků. Některé jsou komerční, jiné volně
 dostupné. V následující kapitole budou představeny dohledané softwary
@@ -382,6 +405,7 @@ Software určený pro import dat formátu \zk{ISKN} do
 %% NVF. Nikde neni zmineno, ze si pod zkratkou VFK predstavujete prave
 %% NVF
 %% LK: prepsano na VFK
+%% ML: OK
 geodatabáze. Pracuje s daty ve formátu \zk{VFK} a umožňuje jejich
 zpracování do osobní, souborové a ArcSDE geodatabáze v MS SQL Server
 či Oracle. K ISKN Studiu je možné doinstalovat doplněk ISKN View,
@@ -446,14 +470,16 @@ dostupný. \cite{vfk_driver}
 %http://freegis.fsv.cvut.cz/gwiki/VFK_/_QGIS_plugin
 \section{Sestavení geometrie prvků}
 \label{sec:sestaveni_geometrie}
-Pokud je verze knihovny GDAL [\ref{subsec:gdal_vfk}] GDAL 2.1 a nižší, po načtení \zk{VFK} souboru nedojde k sestavení geometrie jednotlivých prvků automaticky. Uživatel si proto musí sestavení
+Pokud je verze knihovny GDAL 2.1 a nižší, po načtení \zk{VFK} souboru
+nedojde k sestavení geometrie jednotlivých prvků automaticky. Uživatel
+si proto musí sestavení
 %% ML: ve vete se trikrat opakuje slovo ``geometrie''
 %% LK: vyreseno
 vyžádat přímo dotazem, například potřebuje-li geometrii bloku HP:
 \textbf{GetLayerByName('HP').GetFeature(1)}. Geo\-metrie se sestavuje
 postupně po blocích dle schématu počínaje blokem SOBR (souřadnice
 %% ML: misto dvojtecky, uvedte odkaz na obrazek
-obrazu bodů polohopisu)[\ref{fig:vfk_diagram_geom}].
+obrazu bodů polohopisu) (viz obr. \ref{fig:vfk_diagram_geom}).
 \begin{figure}[H]
 	 \centering
       \includegraphics[width=10cm]{./pictures/Vfk-diagram-geom.png}
@@ -462,6 +488,7 @@ obrazu bodů polohopisu)[\ref{fig:vfk_diagram_geom}].
       \label{fig:vfk_diagram_geom}
 \end{figure}
 %% ML: vetu prepiste, zni kostrbate
+%% ML: v poradku
 Při sestavení geometrie bloku HP (hranic parcel) dojde po
 provedení dotazu k sestavení geometrie i
 %% ML: predchozich -> souvisejicich

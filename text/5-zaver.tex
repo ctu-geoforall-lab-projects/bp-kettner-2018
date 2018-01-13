@@ -6,39 +6,49 @@
 %% LK: to je :-)
 %% ML: odstavec - jedno ohromne souveti, prepiste...
 %% LK: prepisu
-Cílem bakalářské práce bylo vytvoření nové knihovny psané v
-jazyce Python, která měla za úkol rozšířit funkcionalitu již existujícího
-zásuvného modulu pro aplikaci QGIS. Rozšiřovaný zásuvný modul nyní usnadňuje práci pouze se zpoplatněnými českými
-katastrálními daty ve formátu \zk{VFK}. Nové rozšíření mělo navíc umožňovat načítání neúplných veřejně
-dostupných dat výměnného formátu katastru nemovitostí a sestavení bloků parcel a budov z načtených dat.
+%% ML: jeste se na ten odstavec podivejte, ve vsech vetam mluvite o "rozsireni"
+%% ML: zkuste jeste jednou odstavec projit a preformulovat, zaver by mel byt nejlepsi casti praci
+Cílem bakalářské práce bylo vytvoření nové knihovny napsané v jazyce
+Python, která měla za úkol rozšířit funkcionalitu stávajícího
+zásuvného modul QGIS pro práci s katastrálními daty. Rozšiřovaný
+zásuvný modul nyní usnadňuje práci pouze se zpoplatněnými českými
+katastrálními daty ve formátu \zk{VFK}. Nové rozšíření mělo navíc
+umožňovat načítání neúplných veřejně dostupných dat výměnného formátu
+katastru nemovitostí a sestavení bloků parcel a budov z načtených dat.
 
-%Upřesněný výsledek
-Cíl práce byl splněn. Podařilo se vytvořit takovou knihovnu, která splňuje výše zmíněné zadání.
+% Upřesněný výsledek
+%% ML: prvni a druha veta rika to same, prepiste
+Cíl práce byl splněn. Podařilo se vytvořit takovou knihovnu, která
+splňuje výše zmíněné zadání.
 %% ML: druha veta opakuje to co jiz bylo receno, preformulujte
 %% LK: preformulovano
 %% ML: neuplne -> verejne dostupne (tj. data bez bloku NEMO - pokud si dobre vzpominam)
 %% LK: opraveno
-Veřejně dostupná data neobsahují datovou skupinu Nemovitosti, ve které jsou bloky parcel a budov. Proto knihovna oba bloky sestavuje
+Veřejně dostupná data neobsahují datovou skupinu Nemovitosti, ve které
+jsou bloky parcel a budov. Proto knihovna oba bloky sestavuje
 %% ML: proc je to nutne? -> vizualizace dat v pluginu, nevim, zda to
 %% mate nekde jasne receno, minimalne, zde by to melo byt ucineno
 %% LK: dopsano
-a ukládá je do databáze, která
-vznikne při načtení dat VFK driverem[\ref{subsec:gdal_vfk}]
-knihovny GDAL[\ref{sec:gdal}]. Sestavení obou bloků má pro funkčnost zásuvného modulu zásadní vliv, poněvadž jsou v mapovém okně QGISu[\ref{sec:qgis}] vizualizovány.
+%% ML: lepsi
+a ukládá je do databáze, která vznikne při načtení dat VFK driverem
+(viz kap. \ref{subsec:gdal_vfk}) knihovny GDAL. Sestavení obou bloků
+má pro funkčnost zásuvného modulu zásadní vliv, poněvadž jsou v
+mapovém okně QGISu vizualizovány.
 
-%Komplikace
+% Komplikace
+%% ML: nektere linky jsem odstranil, opakuji se
 Při vytváření knihovny se objevily komplikace, které tvorbu práce
 zpomalily. Verze knihovny GDAL 2.1.3 nesestavuje geometrii automaticky
 přímo při načítání dat, ale až po provedení dotazu na konkrétní
-geometrii. Dále VFK Driver[\ref{subsec:gdal_vfk}] do vzniklé databáze po načtení dat
+geometrii. Dále VFK Driver do vzniklé databáze po načtení dat
 nepřidává tabulky s geometrií a souřadnicovým systémem, tudíž vzniklá
 %% ML: SQLite driver
 %% LK: prepsano
 databáze není prostorová a SQLite driver nedokáže rozeznat typ geometrie datových
 %% ML: hlavne typ geometrie (bloky jako takove ano)
 %% LK: opraveno
-bloků. Tabulky byly v databázi vytvořeny a SQL driver poté dokázal
-typ geometrie bloků přečíst. V nejnovější verzi knihovny GDAL[\ref{sec:gdal}] jsou oba
+bloků. Tabulky byly v databázi vytvořeny a SQL driver poté dokázal typ
+geometrie bloků přečíst. V nejnovější verzi knihovny GDAL jsou oba
 nedostatky odstraněny. Rozšíření zásuvného modulu bylo vyvíjeno na
 %% ML: veta o windows a vyvoji je zcela subjektivni, pokud umite
 %% pouzivat vyvojove prostredky pod Windows, je to asi bajecny system
@@ -46,6 +56,7 @@ nedostatky odstraněny. Rozšíření zásuvného modulu bylo vyvíjeno na
 %% ML: jde hlavne o to, ze byl testovan jak pod Linuxem a Windows, to
 %% je podstatne
 %% LK: veta o windows smazana
+%% ML: v poradku
 dvou operačních systémech -- Linux a Windows. Velkou komplikaci
 způsobilo použití systémových proměnných, které v prostředí Linuxu
 fungovalo a v prostředí Windows nikoliv. Situaci vyřešilo až
@@ -54,10 +65,10 @@ alternativní definování proměnné přes příkaz SetConfigOption().
 %Výsledek
 Výsledkem bakalářské práce je rozšířený zásuvný modul pro práci s daty
 katastru nemovitostí ve formátu \zk{VFK} pro volně dostupný
-geografický informační systém QGIS[\ref{sec:qgis}]. Přidané rozšíření umožňuje načít
+geografický informační systém QGIS. Přidané rozšíření umožňuje načít
 nejen úplná, ale i neúplná data ve formátu \zk{VFK} a sestaví bloky
-parcel a budov, které jsou v mapovém okně systému QGIS[\ref{sec:qgis}] vizualizovány
-včetně parcelních čísel.
+parcel a budov, které jsou v mapovém okně systému QGIS 
+vizualizovány včetně parcelních čísel.
 
 %Další vývoj
 Funkčnost knihovny byla testována na datech z katastrálního území
@@ -65,10 +76,16 @@ Abertamy, které obsahuje 1680 parcel a 470 budov. Velikost \zk{VFK}
 souboru je 6,7 MB. U objemnějších dat trvá sestavování geometrie
 % ML: ve vete mate dvakrat sestaveni geometrie
 % LK: odtraneno
-výrazně déle. Sestavování geometrií by se dalo zrychlit, kdyby probíhalo přímo v
+%% ML: mirne upraveno
+výrazně déle. Tato operace by se dala pravděpodobně zrychlit, kdyby
+probíhala přímo v
 %% ML: proc? - GDAL ovladace jsou napsany v programovacim jazyku C++, ale ma to vice duvodu.
 %% LK: jak by tedy bylo mozne sestavovani zrychlit?
-prostředí VFK driveru. Navazující vývoj bude zprovoznění vyhledávání podle parcelního čísla i ve veřejně poskytovaných datech. Import dat je třeba přesunout do separátního vlákna, což umožní zobrazení informací o průběhu sestavování parcel a budov.
+%% ML: bez vyvoje a testovanim tezko rici ;-)
+prostředí VFK driveru. Do navazujícího vývoje patří zprovoznění
+vyhledávání podle parcelního čísla i ve veřejně poskytovaných
+datech. Import dat je třeba přesunout do separátního vlákna, což
+umožní zobrazení informací o průběhu sestavování parcel a budov.
 
 %Dokumentace
 Tato práce svým obsahem podrobně dokumentuje funkčnost a způsob vzniku
@@ -79,15 +96,17 @@ rozšířeny o diagram popisující princip sestavení hranic
 %% ML: posledni veta je prilis dlouha, zkuste preformulovat a zlepsit
 %% stylistickou uroven
 %% LK: opraveno
-parcel \ref{fig:logika_geometrie}. Další přílohou je návod jak
-načítat data do zásuvného modulu (\ref{sec:nacteni_dat_ukazka}). Poslední přílohou je návod na stažení
-veřejně poskytovaných neúplných dat výměnného formátu
-katastru(\ref{sec:stazeni_dat_ukazka}). Stažení těchto dat je potřebné pro využití nového rozšíření.
+parcel \ref{fig:logika_geometrie}. Další přílohou je návod jak načítat
+data do zásuvného modulu (\ref{sec:nacteni_dat_ukazka}). Poslední
+přílohou je návod na stažení veřejně poskytovaných neúplných dat
+výměnného formátu katastru (\ref{sec:stazeni_dat_ukazka}). Stažení
+těchto dat je potřebné pro využití nového rozšíření.
 
 %Zdrojové kódy
 %% ML: ve vasem gitu bakalarky (src)
 %% LK: doplneno
-Zdrojové kódy knihovny jsou ke stažení ve složce \textit{src} na adrese: \href{https://github.com/ctu-geoforall-lab-projects/bp-kettner-2018}{https://github.com/ctu-geoforall-lab-projects/bp-kettner-2018}.
+%% ML: doplneno zalomeni radku
+Zdrojové kódy knihovny jsou ke stažení ve složce \textit{src} na adrese:\newline \href{https://github.com/ctu-geoforall-lab-projects/bp-kettner-2018}{https://github.com/ctu-geoforall-lab-projects/bp-kettner-2018}.
 
 %Distribuce
 %Jaké problémy se objevily-operační systémy, jak se naplnila očekávání.
@@ -96,4 +115,7 @@ Zdrojové kódy knihovny jsou ke stažení ve složce \textit{src} na adrese: \h
 %% ML: doufam, ze bude kod zaclenen do repositare pluginu, pote jiz
 %% bude distribuce standardni
 %% LK: doplneno
-Kód knihovny bude začleněn do repozitáře rozšiřovaného zásuvného modulu a distribuce bude standardní přes prostředí QGIS[\ref{sec:qgis}].
+%% ML: preformulovano
+V dlouhodobém plánu je začlenění výsledku práce do zdrojových kódů
+zásuvného modulu a umožnění otestovat novou funckcionalitu běžnými
+uživateli programu QGIS.

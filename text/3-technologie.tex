@@ -9,9 +9,11 @@ geografický informační systém QGIS, pro který je zásuvný modul vyvíjen.
 %% ML: posledni vete vubec nerozumim, orientaci? Mate na mysli, to ze
 %% jste pouzival Qt Creator pro tvorbu UI? Qt je graficky framework na
 %% kterem je QGIS postaven.
-%% LK: mel jsem na mysli Qt creator,zminim zde Qt 
-Pro práci důležitou technologií je i knihovna GDAL a grafický framework\footnote{Softwarová
-  struktura sloužící jako podpora při vývoji nových programů} Qt. 
+%% LK: mel jsem na mysli Qt creator,zminim zde Qt
+%% ML: OK
+Pro práci důležitou technologií je i knihovna GDAL a grafický
+framework\footnote{Softwarová struktura sloužící jako podpora při
+  vývoji nových programů} Qt.
 
 \section{Python}
 \label{sec:python}
@@ -25,33 +27,43 @@ Pro práci důležitou technologií je i knihovna GDAL a grafický framework\foo
 
 %% ML: druhou cast souveti prepiste anebo uplne vynechte
 %% LK: vynechána
+ %% ML: dobre
 Za autora programovacího jazyka Python je považován Guido vam Roosum.
 %% ML: drou vetu prepiste do cestiny, pocatek ... byl ... na
-Vývoje jazyka Python začal v roce 1990 na Stichtig Mathematisch Centrum v Nizozemí. Hlavní princip
+Vývoje jazyka Python začal v roce 1990 na Stichtig Mathematisch
+Centrum v Nizozemí. Hlavní princip
 %% ML: osloveni Guido zni familiarne, odkud jste text cerpal?
 %% LK: cerpano je z ucebnice jazyka Python, odkaz {ucebnicepython},
 %% odkaz na zdroj presunut z konce textu pod tento odstavec
-vychází z programovacího jazyka ABC. Python je volně dostupný včetně standardních knihoven,
-dokumentace a zdrojových kódů. V roce 2001 vznikla nezisková
-organizace Python Software Foundation, která je vlastníkem veškerých
-intelektuálních materiálů souvisejících s programovacím jazykem
+vychází z programovacího jazyka ABC. Python je volně dostupný včetně
+standardních knihoven, dokumentace a zdrojových kódů. V roce 2001
+vznikla nezisková organizace Python Software Foundation, která je
+vlastníkem veškerých intelektuálních materiálů souvisejících s
+programovacím jazykem
 %% ML: poznamka pod carou: velmi zjednodusena definice open source
-Python. Spravuje open source\footnote{Jedná se o technologie s volně poskytovanými zdrojovými kódy, na vývoji s tak může podílet kdokoliv} licence Pythonu od verze 2.1 a výš. Zároveň se stará o
+%% ML: lepsi
+Python. Spravuje open source\footnote{Jedná se o technologie s volně
+  poskytovanými zdrojovými kódy, na vývoji se tak může podílet
+  kdokoliv} licence Pythonu od verze 2.1 a výš. Zároveň se stará o
 %% ML: posledni veta (pod), ktera se na vyvoji jazyka take podilela a pod...
-ochranou známku jazyka. Jedním ze sponzorů neziskové organizace je 
-společnost Digital Creations a pod kterou vývoj jazyka také probíhal. \cite{ucebnicepython}
+%% ML: zbytek vety jsem odstranil
+ochranou známku jazyka. Jedním ze sponzorů neziskové organizace je
+společnost Digital Creations. \cite{ucebnicepython}
 
 Python účinně a efektivně pracuje s vysokoúrovňovými datovými
 typy. Syntaxe jazyka a dynamické typy z něj dělají vhodný nástroj pro
 %% ML: mate v seznamu zkratek?, zde nemate rozepsanu
 %% LK: ano mam
+%% ML: OK
 psaní skriptů a rychlý vývoj aplikací (\zk{RAD}). Jazyk si snadno
 %% ML: cteni syntaxe nezni cesky,..
 %% LK: prepsano
 oblíbí začátečníci, pro které je struktura jazyka snadno pochopitelná. 
 %% ML: co znamena ``interpret''
 %% LK: myslel jsem opreacni systemy
-Další výhodou je spustitelnost na velkém množství operačních systémů zahrnujících Linux, Windows, MacOS. \cite{python, diveintopython}
+%% ML: v poradku
+Další výhodou je spustitelnost na velkém množství operačních systémů
+zahrnujících Linux, Windows, MacOS. \cite{python, diveintopython}
 
 %obrazek: https://www.raspberrypi.org/documentation/usage/python/images/python-logo.png
 %zdroje:https://docs.python.org/3/tutorial/index.html a https://i.iinfo.cz/files/root/k/Ucebnice_jazyka_Python.pdf
@@ -65,14 +77,16 @@ Další výhodou je spustitelnost na velkém množství operačních systémů z
       \label{fig:qgis}
   \end{figure}
   
-Jedná se o volně dostupný geografický informační systém (\zk{GIS}),
-který slouží pro práci s geodaty \footnote{Data s prostorovou a atributovou složkou, která se vztahují ke konkrétnímu místu na
+  Jedná se o volně dostupný geografický informační systém (\zk{GIS}),
+  který slouží pro práci s geodaty\footnote{Data s prostorovou a
+    atributovou složkou, která se vztahují ke konkrétnímu místu na
   %% ML: druhou vetu prepiste, aby znela vice cesky
   %% LK: veta zjednodusena
+    %% ML: OK
    Zemi.}. Licenci k programu má ve správě GNU General Public
 License. QGIS je oficiálním projektem Open Source Geospatial
 Foundation(\zk{OSGeo}) a je spustitelný na nejužívanějších operačních
-systémech jako Windows, Linux, MacOS. Samotný systém je napsaný v
+systémech jako Windows, Linux, Mac\-OS. Samotný systém je napsaný v
 jazyce C++ a jeho výhodou je velké množství nejrůznějších rozšíření
 (zásuvných modulů), které je možné snadno doinstalovat. Zásuvné moduly
 mohou být napsané nejen v C++, ale také v programovacím jazyce
@@ -84,6 +98,7 @@ Vývoj systému začal roku 2002 Garym Shermanem, ještě pod názvem
 \textit {Quantum GIS} (toto označení zůstalo až do verze 2.0).\cite{qgis_official, qgis_wiki_en, qgis_wiki_cz}
 %% ML: tuto informaci mate na zacatku odstavce, staci jednou
 %% LK: odstraneno
+%% ML: OK
  
 %zdroj: https://www.qgis.org/en/site/, https://cs.wikipedia.org/wiki/QGIS, https://en.wikipedia.org/wiki/QGIS
 %obrazek: https://euipo.europa.eu/copla/image/CJ4JX4FZVCC523YA2TMALSKFLFPOWZHPVHYMP5QREVP2BOXHB3PCM7RCOZR6TEIMWNCQDAB6N25VA
@@ -108,17 +123,20 @@ QGIS, který umožňuje práci s daty českého katastru
 %% podstatne, aby se v datech vyskytovali bloky PAR a BUD (skupina
 %% NEMO), jinak nemusi byt '``uplna''
 %% LK: odstraneno uplnymi, mám zmínit, že data musí obsahovat datovou skupinu NEMO?
+%% ML: ano, muzete zminit
 nemovitostí. Zásuvný modul pracuje s daty v takzvaném novém
 výměnném formátu katastru, který je označovaný \zk{VFK} nebo
 \zk{NVF}. Data ze souboru jsou čtena pomocí knihovny \zk{GDAL}. Plugin
 %% ML: Pri cem jinem? ;-) Zkuste preformulovat
 %% LK: preformulovano :)
+%% ML: OK
 umožňuje vyhledávání a zobrazování informací z načtených dat katastru
 nemovitostí. Ovládání je uživatelsky přívětivé a známé vzhledem k
 podobnému rozhraní jako je u webových aplikací.
 
 %% ML: nyni?
 %% LK: zmenen zacatek vety
+%% ML: OK
 V aktuální verzi je možné pro nahraná data vyhledávat: parcely, budovy, jednotky
 a oprávněné osoby. Prohlížeč dat umožňuje zobrazit list vlastnictví a
 další výpisy informací: o parcele, o budově, o jednotce a o oprávněné
@@ -130,6 +148,7 @@ PS\footnote{Programovací jazyk PostScript vyvinutý ke grafickému
   ze kterého se tiskne, podobně jako formát PDF. \cite{PostScript}}).
 
 %% ML: Obe vety zacinaji temer stejne: Zdrojove kody/texty, zkuste prepsat
+%% ML: v poradku
 Zdrojové kódy zásuvného modulu jsou ke stažení na adrese
 \href{https://github.com/ctu-geoforall-lab/qgis-vfk-plugin}{Git
   repozitáře} a jsou šířeny pod licencí
@@ -182,11 +201,14 @@ hlavní volně dostupné softwary. \cite{gdal, gdal_wiki}
       \label{fig:qt}
   \end{figure}
 
-%% ML: chybi Vam tu kontext: na tomto grafickem frameworku je postaven QGIS!
-Qt je multiplatformní aplikační rámec (framework), který je určen pro vývoj aplikačního softwaru. Ten může
-snadno fungovat na různých platformách s žádnými nebo jen minimálními
-změnami v kódu. QGIS[\ref{sec:qgis}] samotný je na tomto grafickém aplikačním rámci postaven. Qt je aktuálně vyvíjen společnostmi \textit{The Qt
-  Company} a \textit{Qt Project}.\cite{qt_wiki, qt}
+  %% ML: chybi Vam tu kontext: na tomto grafickem frameworku je postaven QGIS!
+  %% ML: v poradku
+  Qt je multiplatformní aplikační rámec (framework), který je určen
+  pro vývoj aplikačního softwaru. Ten může snadno fungovat na různých
+  platformách s žádnými nebo jen minimálními změnami v kódu. QGIS (viz
+  kap. \ref{sec:qgis}) samotný je na tomto grafickém aplikačním rámci
+  postaven. Qt je aktuálně vyvíjen společnostmi \textit{The Qt
+    Company} a \textit{Qt Project}.\cite{qt_wiki, qt}
 
 %zdroj: https://en.wikipedia.org/wiki/Qt_(software)
 %obrazek: https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Qt_logo_2016.svg/578px-Qt_logo_2016.svg.png
