@@ -202,6 +202,8 @@ ukázka~\ref{lst:datovy_blok}.
 %% ML: v poradku
 %% ML: pokud se nezmeni text, tak vlozte pred ukazku \newpage, takto
 %% je ukazka podivne rozdelena na dve stranky
+%% LK: vlozeno
+\newpage
 {\small
 \begin{lstlisting}[caption=Ukázka datového bloku SOBR (souřadnice obrazu bodů polohopisu v mapě) veřejně poskytovaných dat, label=lst:datovy_blok]
 &BSOBR;ID N30;STAV_DAT N2;KATUZE_KOD N6;CISLO_ZPMZ N5;
@@ -219,7 +221,8 @@ SOURADNICE_X N10.2;KODCHB_KOD N2
 \label{subsec:neuplna_data}
 
 %% ML: navrhuji zacit veru Data ... (tj. vynechat uplna)
-Úplná data výměnného formátu katastru nemovitostí, která jsou
+%% LK: souhlasim
+Data výměnného formátu katastru nemovitostí, která jsou
 zpoplatněna a~poskytována přes webovou aplikaci Dálkový přístup,
 obsahují následujících 12 skupin datových bloků:
 \verb|&HSKUPINA;"NEMO"|; \verb|"JEDN";"BDPA"|; \verb|"VLST";"JPVZ"|;
@@ -283,16 +286,18 @@ která je základní mapovací a oceňovací jednotkou zemědělské půdy.
 \subsection{Stažení veřejně poskytovaných dat výměnného formátu katastru}
 %% ML: ve vete se objevuje dvakrat bezuplatne
 %% ML: vypada to, ze bylo opraveno
+%% LK: ano bylo, zapomnel jsem zakomentovat
 Tato bakalářská práce je zaměřená na zpracování volně
 poskytovaných data z~neharmonizovaných služeb mapového serveru
 \zk{ČUZK}, kde jsou veškeré služby poskytovány bezúplatně. Veřejně poskytovaná data \zk{VFK} je
 možné stáhnout na adrese \\
-\href{http://services.cuzk.cz/vfk/}{http://services.cuzk.cz/vfk/}. Uživatel 
+\href{http://services.cuzk.cz/vfk/}{http://services.cuzk.cz/vfk/}. Pro uživatele 
 %% ML: zkuste prepsat, veta nezni dobre
- si může během stahování zvolit podle jakého parametru chce mít vybraná data uspořádána.
- K dispozici jsou dvě možnosti - dle katastrálního území nebo katastrálního
+%% LK: obe divne vety sjednoceny do jedne
+ jsou data k dispozici podle katastrálního území (volba \textit{ku}) nebo katastrálního pracoviště ( volba \textit{kp}). 
 %% ML: Dalsi veta zni opet divne, prepsat
- pracoviště. Vybrat je možné i různé staří stahovaných dat.  Podrobná
+%% LK: sjednoceny do jedne, viz o radek vys
+Vybrat je možné i různé staří stahovaných dat.  Podrobná
  ukázka stažení dat krok za krokem je k dispozici
  v~příloze~\ref{sec:stazeni_dat_ukazka}.
 %% ML: okne?
@@ -306,7 +311,8 @@ možné stáhnout na adrese \\
 %% LK: opraveno, zmenen zacatek vety
 Bloky parcel a budov patří do skupiny datových bloků s názvem Nemovitosti
 %% ML: uplnych -> zpoplatnenych
-a~kódem NEMO a jsou obsaženy pouze v úplných datech.
+%% LK: opraveno
+a~kódem NEMO a jsou obsaženy pouze ve zpoplatněných datech.
 
 Datový blok PARCELY s kódem PAR obsahuje parcely evidované v
 %% ML: sloupcu -> atributu ?
@@ -316,6 +322,7 @@ Datový blok PARCELY s kódem PAR obsahuje parcely evidované v
 %% ML: okolnich -> sousednich
 %% ML: pokud mate nekde souvisejici diagram, tak chybi odkaz
 %% ML: nevypadl Vam ten diagram, jinak v poradku
+%% LK: diagram k teto situaci nemam
 datového bloku HP (hranice parcel) je možné získat seznam sousedních
 parcel pro daná identifikační parcelní čísla. Blok BUDOVY s kódem BUD
 obsahuje stavby evidované v \zk{ISKN}.

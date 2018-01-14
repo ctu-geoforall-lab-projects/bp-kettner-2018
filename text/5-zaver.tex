@@ -8,9 +8,10 @@
 %% LK: prepisu
 %% ML: jeste se na ten odstavec podivejte, ve vsech vetam mluvite o "rozsireni"
 %% ML: zkuste jeste jednou odstavec projit a preformulovat, zaver by mel byt nejlepsi casti praci
+%% LK: pomuze slovo vylepsit?
 Cílem bakalářské práce bylo vytvoření nové knihovny napsané v jazyce
-Python, která měla za úkol rozšířit funkcionalitu stávajícího
-zásuvného modul QGIS pro práci s katastrálními daty. Rozšiřovaný
+Python, která měla za úkol vylepšit funkcionalitu stávajícího
+zásuvného modul QGIS pro práci s katastrálními daty. Vylepšovaný
 zásuvný modul nyní usnadňuje práci pouze se zpoplatněnými českými
 katastrálními daty ve formátu \zk{VFK}. Nové rozšíření mělo navíc
 umožňovat načítání neúplných veřejně dostupných dat výměnného formátu
@@ -18,7 +19,8 @@ katastru nemovitostí a sestavení bloků parcel a budov z načtených dat.
 
 % Upřesněný výsledek
 %% ML: prvni a druha veta rika to same, prepiste
-Cíl práce byl splněn. Podařilo se vytvořit takovou knihovnu, která
+%% LK: prvni vetu dam pryc
+Podařilo se vytvořit takovou knihovnu, která
 splňuje výše zmíněné zadání.
 %% ML: druha veta opakuje to co jiz bylo receno, preformulujte
 %% LK: preformulovano
@@ -66,7 +68,7 @@ alternativní definování proměnné přes příkaz SetConfigOption().
 Výsledkem bakalářské práce je rozšířený zásuvný modul pro práci s daty
 katastru nemovitostí ve formátu \zk{VFK} pro volně dostupný
 geografický informační systém QGIS. Přidané rozšíření umožňuje načít
-nejen úplná, ale i neúplná data ve formátu \zk{VFK} a sestaví bloky
+nejen zpoplatněná, ale i veřejně dostupná data ve formátu \zk{VFK} a sestaví bloky
 parcel a budov, které jsou v mapovém okně systému QGIS 
 vizualizovány včetně parcelních čísel.
 
@@ -77,11 +79,13 @@ souboru je 6,7 MB. U objemnějších dat trvá sestavování geometrie
 % ML: ve vete mate dvakrat sestaveni geometrie
 % LK: odtraneno
 %% ML: mirne upraveno
+%% LK: diky
 výrazně déle. Tato operace by se dala pravděpodobně zrychlit, kdyby
 probíhala přímo v
 %% ML: proc? - GDAL ovladace jsou napsany v programovacim jazyku C++, ale ma to vice duvodu.
 %% LK: jak by tedy bylo mozne sestavovani zrychlit?
 %% ML: bez vyvoje a testovanim tezko rici ;-)
+%% LK: takze takhle napsane staci?
 prostředí VFK driveru. Do navazujícího vývoje patří zprovoznění
 vyhledávání podle parcelního čísla i ve veřejně poskytovaných
 datech. Import dat je třeba přesunout do separátního vlákna, což
@@ -91,7 +95,7 @@ umožní zobrazení informací o průběhu sestavování parcel a budov.
 Tato práce svým obsahem podrobně dokumentuje funkčnost a způsob vzniku
 %% ML: a jeji integrace do pluginu
 %% LK: opraveno
-nově vytvořené knihovny a její integrace do zásuvného modulu. V příloze jsou informace o knihovně ještě
+nově vytvořené knihovny včetně integrace do zásuvného modulu. V příloze jsou informace o knihovně ještě
 rozšířeny o diagram popisující princip sestavení hranic
 %% ML: posledni veta je prilis dlouha, zkuste preformulovat a zlepsit
 %% stylistickou uroven
@@ -116,6 +120,7 @@ Zdrojové kódy knihovny jsou ke stažení ve složce \textit{src} na adrese:\ne
 %% bude distribuce standardni
 %% LK: doplneno
 %% ML: preformulovano
+%% LK: dekuji
 V dlouhodobém plánu je začlenění výsledku práce do zdrojových kódů
-zásuvného modulu a umožnění otestovat novou funckcionalitu běžnými
+zásuvného modulu a umožnění otestovat novou funkcionalitu běžnými
 uživateli programu QGIS.

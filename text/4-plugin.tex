@@ -7,15 +7,16 @@ Tato kapitola je věnována informacím o nové knihovně
 %% ML: OK
 %% ML: v odstavci mate pouzito v kazde vete slovo "funkcnost", zkuste
 %% mirne prepasat
+%% LK: mirne prepsano
 \textbf{publicvfk} rozšiřující funkčnost \textit{QGIS VFK Pluginu}
 (kap. \ref{sec:qgis_plugin}) a její
 %% ML: ve vete mate dvakrat souslovi ``zasuvny modul'', zkuste prepsat
-integraci do zásuvného modulu (kap. \ref{sec:integrace_knihovny}). Je
-zde popsána funkčnost knihovny a uvedeny
+integraci do zásuvného modulu (kap. \ref{sec:integrace_knihovny}). Jsou
+zde popsány vlastnosti knihovny a uvedeny
 %% ML: druhou cast vety prepiste, zni sroubovane. - napr. knihovny
 %% jeji vstupy a vystupy.
 %% LK: prepsano
-její vstupy a výstupy. Dále je představena ukázka funkčnosti na
+její vstupy a výstupy. Dále je představena ukázka použití na
 testovacích datech (viz kap. \ref{subsec:funkcnost_knihovny}) a
 popsány podrobnosti o způsobu integrace do výše zmíněného zásuvného
 modulu \textit{QGIS VFK
@@ -89,7 +90,7 @@ parcel), kde je možné pomocí atributů \verb|PAR_ID_1| a
 %% LK: ok
 identifikátorů všech parcel. Pro každou parcelu jsou následně nalezeny
 %% ML: geometrie sestavena geometrickou cestou? zkuste preformulovat
-%% LK: prefotmulovano
+%% LK: preformulovano
 příslušné hranice. Samotná geometrie parcely je sestavena 
 %% ML: veta nedava smysl, prepiste
 %% LK: prepsano
@@ -150,7 +151,8 @@ driverem (viz kap. \ref{subsec:gdal_vfk}) a zápisu do databáze.
 Zkomprimovaná testovací data ve formátu \zk{VFK} byla stažena pro
 katastrální území Abertamy na adrese:
 \href{http://services.cuzk.cz/vfk/ku/20170901/600016.zip}{http://services.cuzk.cz/vfk/ku/20170901/600016.zip}.
-     {\scriptsize
+
+{\scriptsize
 \begin{lstlisting}[caption=Ukázka bloku hranic parcel(HP) -- definice bloků a věty dat(zdroj: vlastní), label=lst:data]
 &BHP;ID N30;STAV_DAT N2;DATUM_VZNIKU D;DATUM_ZANIKU D;PRIZNAK_KONTEXTU N1;
 RIZENI_ID_VZNIKU N30;RIZENI_ID_ZANIKU N30;TYPPPD_KOD N10;PAR_ID_1 N30;PAR_ID_2 N30
@@ -230,6 +232,7 @@ geometrie parcel i budov.
 %% ML: preteceni textu v radku
 %% LK: co s tim?
 %% ML: text jsem mirne upravil, aby si lepe sedl
+%% LK: diky
   V konstruktoru třídy dochází k vytvoření metadatové tabulky geometrie 
   (\verb|geometry_columns|) a souřadnicového systému
   (\verb|spatial_ref_sys|), bez kterých by nebylo možné číst geometrii
@@ -322,6 +325,7 @@ kolik parcel má sestavit. Při běžném spuštění dochází k sestavení vš
 %% ML: zkuste prvni vetu preformulovat, nezni dobre
 %% LK: upraveno
 %% ML: mirne jsem jeste upravul
+%% LK: dekuji
 Základem integrace knihovny do zásuvného modulu je zavolání metod
 knihovny v~souboru \textit{mainApp.py}, a to těsně po načtení
 vstupního VFK souboru. Je zapotřebí zachovat
